@@ -1,0 +1,24 @@
+/* app css stylesheet */
+
+.dialogNuevaLicitacion #popupContainer {
+  position: relative; }
+
+.dialogNuevaLicitacion .footer {
+  width: 100%;
+  text-align: left;
+  margin-left: 20px; }
+
+.dialogNuevaLicitacion .footer, .dialogNuevaLicitacion .footer > code {
+  font-size: 0.8em;
+  margin-top: 50px; }
+
+.dialogNuevaLicitacion button {
+  width: 143px; }
+
+.dialogNuevaLicitacion div#status {
+  color: #c60008; }
+
+.dialogNuevaLicitacion md-checkbox {
+  margin-bottom: 0; }
+
+

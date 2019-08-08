@@ -1,0 +1,30 @@
+<md-toolbar class="md-table-toolbar md-default">
+  <div class="md-toolbar-tools">
+    <span>Licitaciones</span>
+  </div>
+</md-toolbar>
+
+<md-table-container>
+  <table md-table data-md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" data-ng-model="selected" md-progress="promise">
+    <thead md-head>
+      <tr md-row>
+        <th md-column><span>Objeto</span></th>
+        <th md-column><span>CPV</span></th>
+        <th md-column><span>Fecha fin</span></th>
+        <th md-column><span>Importe Licitación</span></th>
+      </tr>
+    </thead>
+    <tbody md-body>
+      <tr md-row md-select="dessert" md-select-id="name" data-md-on-select="log" md-on-deselect="deselect" x-md-auto-select="options.autoSelect" md-row ng-repeat="licitacion in licitaciones">
+        <td md-cell>{{licitacion.objeto}}</td>
+        <td md-cell>{{licitacion.CPV}}</td>
+        <td md-cell>{{licitacion.fecha_fin}}</td>
+        <td md-cell>{{licitacion.importe_max}} €</td>
+      </tr>
+    </tbody>
+  </table>
+</md-table-container>
+
+
+
+

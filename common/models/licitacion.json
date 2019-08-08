@@ -1,0 +1,64 @@
+{
+  "name": "licitacion",
+  "plural": "licitaciones",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "objeto": {
+      "type": "string",
+      "required": true
+    },
+    "CPV": {
+      "type": "string"
+    },
+    "fecha_inicio": {
+      "type": "date",
+      "required": true
+    },
+    "fecha_fin": {
+      "type": "date",
+      "required": true
+    },
+    "fecha_mesa_adm": {
+      "type": "date",
+      "required": true
+    },
+    "fecha_mesa_subj": {
+      "type": "date"
+    },
+    "fecha_mesa_obj": {
+      "type": "date",
+      "required": true
+    },
+    "org_contratacion": {
+      "type": "string",
+      "required": true
+    },
+    "importe_max": {
+      "type": "number",
+      "required": true
+    },
+    "importe_adj": {
+      "type": "number"
+    },
+    "ppt": {
+      "type": "string",
+      "required": true
+    },
+    "pca": {
+      "type": "string",
+      "required": true
+    },
+    "criterios": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

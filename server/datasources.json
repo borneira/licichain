@@ -1,0 +1,17 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "licichainDS": {
+    "host": "",
+    "port": 0,
+    "url": "mongodb+srv://licichain_usr:f5TlUzwc3ZPm6Ebp@cluster0-jscve.mongodb.net/test?retryWrites=true&w=majority",
+    "database": "",
+    "password": "",
+    "name": "licichainDS",
+    "user": "",
+    "useNewUrlParser": true,
+    "connector": "mongodb"
+  }
+}
