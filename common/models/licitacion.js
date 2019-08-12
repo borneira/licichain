@@ -26,6 +26,12 @@ module.exports = function(Licitacion) {
       }
     };
     console.log(JSON.parse(solc.compile(JSON.stringify(input))));
+    const Web3 = require('web3');
+    const rpcURL = "http://localhost:22001";
+    const web3 = new Web3(rpcURL);
+    console.log(web3.eth.accounts.create());
+
+
     return next();
   });
 };

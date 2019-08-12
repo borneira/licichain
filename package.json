@@ -13,6 +13,7 @@
   "dependencies": {
     "compression": "^1.0.3",
     "cors": "^2.5.2",
+    "ethereumjs-tx": "^2.1.0",
     "helmet": "^3.10.0",
     "loopback": "^3.22.0",
     "loopback-boot": "^2.6.5",
@@ -21,8 +22,9 @@
     "loopback-connector-mongodb": "^4.2.0",
     "passport-google-oauth": "^2.0.0",
     "serve-favicon": "^2.0.1",
-    "solc": "^0.5.10",
-    "strong-error-handler": "^3.0.0"
+    "solc": "^0.5.3",
+    "strong-error-handler": "^3.0.0",
+    "web3": "^1.2.1"
   },
   "devDependencies": {
     "eslint": "^3.17.1",
