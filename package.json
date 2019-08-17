@@ -15,6 +15,7 @@
     "cors": "^2.5.2",
     "ethereumjs-tx": "^2.1.0",
     "helmet": "^3.10.0",
+    "js-sha256": "^0.9.0",
     "loopback": "^3.22.0",
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^6.2.0",
@@ -24,6 +25,9 @@
     "serve-favicon": "^2.0.1",
     "solc": "^0.5.3",
     "strong-error-handler": "^3.0.0",
+    "truffle": "^5.0.31",
+    "truffle-artifactor": "^4.0.27",
+    "truffle-contract": "^4.0.28",
     "web3": "^1.2.1"
   },
   "devDependencies": {

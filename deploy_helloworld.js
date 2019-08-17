@@ -23,12 +23,11 @@ var input = {
 
 const rpcURL = "http://localhost:22000";
 const web3 = new Web3(rpcURL);
-
 var contractJSON = JSON.parse(solc.compile(JSON.stringify(input)));
 abi = contractJSON.contracts['helloworld.sol']['HelloWorld'].abi;
 
 //La salida siguiente se puede cargar en la consola de Quorum Maker como ABI
-console.log(JSON.stringify(abi));
+//console.log(JSON.stringify(abi));
 contract_data = '0x' + contractJSON.contracts['helloworld.sol']['HelloWorld'].evm.bytecode.object;
 
 const myPrivateKey = fs.readFileSync('c:/Users/jgonzalez/licichain/private_key', 'utf8');
@@ -40,7 +39,7 @@ web3.eth.defaultAccount = wallet[0].address;
 contract = new web3.eth.Contract(abi);
 
 contract.options.gasPrice=0;
-contract.options.gas=3058096300;
+contract.options.gas=10000000;
 contract.options.data=contract_data;
 //El defaultAccount no sirve para deploy :-(
 contract.options.from=acc.address;
@@ -52,7 +51,7 @@ contract.deploy().send()
 
       contract.methods.setName('Juan').send({
 //        from: acc.address,
-        gas: 3058096300,
+        gas: 10000000,
         gasPrice: 0,
       })
         .on('error', function(Error) {console.log(Error)})

@@ -14,25 +14,32 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "licichainDS"
   },
   "AccessToken": {
-    "dataSource": "db",
-    "public": false
+    "dataSource": "licichainDS",
+    "public": false,
+    "relations": {
+      "user": {
+        "type": "belongsTo",
+        "model": "usuario",
+        "foreignKey": "userId"
+      }
+    }
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "licichainDS",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "licichainDS",
     "public": false,
     "options": {
       "strictObjectIDCoercion": true
     }
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "licichainDS",
     "public": false
   },
   "licitacion": {
@@ -40,6 +47,14 @@
     "public": true
   },
   "empresa": {
+    "dataSource": "licichainDS",
+    "public": true
+  },
+  "oferta": {
+    "dataSource": "licichainDS",
+    "public": true
+  },
+  "usuario": {
     "dataSource": "licichainDS",
     "public": true
   }

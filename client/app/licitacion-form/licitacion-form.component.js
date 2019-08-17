@@ -1,6 +1,6 @@
 function LicitacionFormController($scope, $mdDialog, Licitacion) {
 $scope.licitaciones=[];
-$scope.status= "Aquí";
+$scope.status= '';
 $scope.licitacion={};
   function getLicitaciones() {
     Licitacion

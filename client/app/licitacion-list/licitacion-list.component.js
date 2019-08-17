@@ -1,6 +1,7 @@
-function LicitacionListController($scope, Licitacion) {
+function LicitacionListController($scope, Licitacion, $mdDialog) {
   $scope.licitaciones = [];
   $scope.licitacionError="";
+  $scope.status="";
   function getLicitaciones() {
     Licitacion
       .find()
@@ -14,6 +15,21 @@ function LicitacionListController($scope, Licitacion) {
       );
   }
 
+  $scope.showLicitacion = function(licitacion) {
+    $mdDialog.show({
+      controller: LicitacionDetailController,
+      templateUrl: 'licitacion-detail/licitacion-detail.template.html',
+      parent: angular.element(document.body),
+      locals: {licitacion: licitacion},
+      clickOutsideToClose: true,
+      fullscreen: true
+    })
+      .then(function(answer) {
+        $scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        $scope.status = 'You cancelled the dialog.';
+      });
+  };
   getLicitaciones();
 }
 

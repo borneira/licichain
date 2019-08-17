@@ -55,10 +55,56 @@
     "criterios": {
       "type": "string",
       "required": true
+    },
+    "PPTHash": {
+      "type": "string"
+    },
+    "PCAHash": {
+      "type": "string"
+    },
+    "sc": {
+      "type": "object"
     }
   },
   "validations": [],
-  "relations": {},
-  "acls": [],
+  "relations": {
+    "oferta": {
+      "type": "hasMany",
+      "model": "oferta",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "AAPP",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "find"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "AAPP",
+      "permission": "ALLOW",
+      "property": "upsert"
+    }
+  ],
   "methods": {}
 }

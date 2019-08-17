@@ -1,0 +1,99 @@
+<md-dialog aria-label="Detalle licitación" flex="80">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Detalle licitación</h2>
+      <span flex></span>
+      <md-button layout-align="right" class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div class="md-dialog-content" flex="100">
+      <md-content md-theme="docs-dark">
+        <md-input-container class="md-block" flex="95">
+          <label>Objeto</label>
+          <input disabled ng-model="licitacion.objeto">
+        </md-input-container>
+      </md-content>
+
+      <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding="">
+        <div flex="95" layout="row">
+          <md-input-container class="md-block" flex="10">
+            <label>CPV</label>
+            <input disabled ng-model="licitacion.CPV">
+          </md-input-container>
+          <md-input-container class="md-block" flex="15">
+            <label>Importe de Licitación</label>
+            <input disabled ng-model="licitacion.importe_max">
+          </md-input-container>
+          <md-input-container class="md-block" flex="15">
+            <label>Importe de Adjudicación</label>
+            <input disabled ng-model="licitacion.importe_adj">
+          </md-input-container>
+          <md-input-container class="md-block" flex="60">
+            <label>Órgano de contratación</label>
+            <input disabled ng-model="licitacion.org_contratacion">
+          </md-input-container>
+        </div>
+      </md-content>
+
+      <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding="">
+        <div flex="95" layout="row">
+          <md-input-container flex="20">
+            <label>Fecha inicio</label>
+            <input disabled ng-model="licitacion.fecha_inicio">
+          </md-input-container>
+          <md-input-container flex="20">
+            <label>Fin presentación ofertas</label>
+            <input disabled ng-model="licitacion.fecha_fin">
+          </md-input-container>
+          <md-input-container flex="20">
+            <label>Mesa Administrativa</label>
+            <input disabled  ng-model="licitacion.fecha_mesa_adm">
+          </md-input-container>
+          <md-input-container flex="20">
+            <label>Mesa subjetivos</label>
+            <input disabled ng-model="licitacion.fecha_mesa_subj">
+          </md-input-container>
+          <md-input-container flex="20">
+            <label>Mesa objetivos</label>
+            <input disabled  ng-model="licitacion.fecha_mesa_obj">
+          </md-input-container>
+          </md-input-container>
+        </div>
+      </md-content>
+      <md-input-container class="md-block">
+        <label>Pliego Prescripciones Técnicas (PPT)</label>
+        <textarea disabled ng-model="licitacion.ppt"></textarea>
+      </md-input-container>
+      <md-input-container>
+      <label>Hash PPT</label>
+      <input disabled ng-model="licitacion.PPTHash">
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Pliego Cláusulas Administrativas (PCA)</label>
+        <textarea disabled ng-model="licitacion.pca"></textarea>
+      </md-input-container>
+      <md-input-container>
+        <label>Hash PCA</label>
+        <input disabled ng-model="licitacion.PCAHash">
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Criterios</label>
+        <textarea disabled ng-model="licitacion.criterios"></textarea>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Dirección Smart Contract</label>
+        <textarea disabled ng-model="licitacion.sc.address"></textarea>
+      </md-input-container>
+
+
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions>
+  </md-dialog-actions>
+</md-dialog>
+
+
+

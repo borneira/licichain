@@ -16,7 +16,7 @@
     </thead>
     <tbody md-body>
       <tr md-row md-select="dessert" md-select-id="name" data-md-on-select="log" md-on-deselect="deselect" x-md-auto-select="options.autoSelect" md-row ng-repeat="licitacion in licitaciones">
-        <td md-cell>{{licitacion.objeto}}</td>
+        <td md-cell ng-click="showLicitacion(licitacion)">{{licitacion.objeto}}</td>
         <td md-cell>{{licitacion.CPV}}</td>
         <td md-cell>{{licitacion.fecha_fin}}</td>
         <td md-cell>{{licitacion.importe_max}} €</td>
