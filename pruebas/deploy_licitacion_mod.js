@@ -1,5 +1,5 @@
 const Web3 = require('web3');
-const licitacionSC = require('./server/lib/licitacion_sc');
+const licitacionSC = require('../server/lib/licitacion_sc');
 
 let licitacion = {
   objeto: 'Suministro de PCs',
