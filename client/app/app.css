@@ -1,5 +1,8 @@
 /* app css stylesheet */
 
+.my-button {
+  min-width: 180;
+}
 .dialogNuevaLicitacion #popupContainer {
   position: relative; }
 

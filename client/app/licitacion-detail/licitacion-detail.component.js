@@ -13,7 +13,3 @@ function LicitacionDetailController($scope, $mdDialog, licitacion) {
   };
 
 };
-/*angular.module('licichainApp').component('licitacionForm', { //AngularJS interpretará <licitacion-form>
-  templateUrl: 'licitacion-form/licitacion-form.template.html',
-  controller: LicitacionFormController
-});*/

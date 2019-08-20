@@ -14,6 +14,7 @@
   <script src="lib/angular-aria/angular-aria.js"></script>
   <script src="lib/angular-messages/angular-messages.js"></script>
   <script src="lib/angular-material-data-table/dist/md-data-table.js"></script>
+  <script src="lib/angular-sanitize/angular-sanitize.js"></script>
   <script src="js/lb-services.js"></script>
   <script src="app.module.js"></script>
   <script src="licitacion-list/licitacion-list.component.js"></script>
@@ -26,13 +27,40 @@
   <script src="empresa-list/empresa-list.module.js"></script>
   <script src="licitacion-form/licitacion-nueva.controller.js"></script>
   <script src="licitacion-detail/licitacion-detail.controller.js"></script>
+  <script src="login/login.controller.js"></script>
+  <script src="oferta-form/oferta-form.component.js"></script>
+  <script src="oferta-form/oferta-form.module.js"></script>
+  <script src="oferta-form/oferta-nueva.controller.js"></script>
+  <script src="lib/bip39-es.js"></script>
+  <script src="js/crypto-utils.js"></script>
 </head>
-<body layout="column" ng-app="licichainApp">
 
-    <md-toolbar layout="column">
-    <h2>Licichain - Licitación pública sobre Blockchain</h2><md-button>Primary (md-noink)</md-button>
-    </md-toolbar>
+<body layout="column" ng-app="licichainApp" ng-controller="loginController">
+<md-content>
+<md-toolbar  class="md-hue-2">
+  <div ng-show="!isAuthenticated && !waitforUser" class="md-toolbar-tools">
+    <h2 flex md-truncate>Licichan - Licitación electrónica sobre blockchain</h2>
+      <label style="margin: 10px"><h2>Usuario</h2></label>
+      <input ng-model="usuario.username" size="10">
 
+      <label style="margin: 10px">Password</label>
+      <input ng-model="usuario.password" type="password" size="10" ng-keyup="$event.keyCode == 13 && login()">
+
+    <md-button  ng-click="login()" class="md-button">
+      Login
+    </md-button>
+  </div>
+
+  </div>
+  <div ng-show="isAuthenticated==true && !waitforUser" class="md-toolbar-tools">
+    <h2 flex md-truncate>Licichan - Licitación electrónica sobre blockchain</h2>
+    <label>{{usuario.descripcion}}</label>
+    <md-button  ng-click="logout()" class="md-button">
+      Logout
+    </md-button>
+  </div>
+</md-toolbar>
+</md-content>
 <div class="md-container" flex layout="row">
   <md-sidenav class="md-whiteframe-4dp" md-is-locked-open="true">
     <md-list>
@@ -51,8 +79,8 @@
     </md-list>
   </md-sidenav>
   <md-content class="md-whiteframe-5dp" flex id="content">
-    <div ng-controller="NuevaLicitacionController" class="md-padding dialogNuevaLicitacion" id="popupContainer" ng-cloak>
-      <div class="dialogNuevaLicitacion-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+    <div ng-show="isAAPP==true" class="md-padding dialogNuevaLicitacion" id="popupContainer" ng-cloak>
+      <div ng-controller="NuevaLicitacionController"  class="dialogNuevaLicitacion-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
     <md-button class="md-primary md-raised" ng-click="showNuevaLicitacion($event)">
       Nueva licitación
     </md-button>

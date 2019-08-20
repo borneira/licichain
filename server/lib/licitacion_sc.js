@@ -19,9 +19,9 @@ web3.eth.defaultAccount = wallet[0].address;
 module.exports = {
 
   /**
-   * Retrieves gas estimate multiplied by the set gas multiplier for a `sendTransaction` call.
+   * Despliega una nueva licitación en blockchain y devuelve una nueva instancia de Licitacion con los datos del SmartContract
    * @param  {Object}            Licitacion
-   * @return {Object}            Web3.eth.Contract
+   * @return {Object}            Licitacion
    */
   deployLicitacion: async function(licitacion) {
     const sourceCode = readFileSync(myContractPath, 'utf8');
@@ -90,10 +90,10 @@ module.exports = {
   },
 
   /**
-   * Retrieves gas estimate multiplied by the set gas multiplier for a `sendTransaction` call.
+   * Devuelve la información de la licitación en un determinado smartcontract
    * @param  {String}            Address
    * @param  {String}            JSONInterface
-   * @return {Object}            Web3.eth.Contract
+   * @return {Object}            Licitacion
    */
   getLicitacion: async function(address, jsonInterface) {
     abi = JSON.parse(jsonInterface);
@@ -122,6 +122,23 @@ module.exports = {
     };
 
     return licitacion;
+  },
+
+  /**
+   * Añade una nueva oferta a una Licitacion
+   * @param  {String}            Address
+   * @param  {String}            JSONInterface
+   * @param  {Object}            Oferta
+   * @return {Object}            XXXX
+   */
+  addOferta:  async function(address, jsonInterface, oferta) {
+    abi = JSON.parse(jsonInterface);
+    contract = new web3.eth.Contract(abi, address, {
+      from: acc.address,
+      gasPrice: 0,
+      gas: 1000000
+    });
+    await contract.methods.addOferta(oferta.empresa, oferta.objetiva, oferta.subjetiva);
   }
 };
 

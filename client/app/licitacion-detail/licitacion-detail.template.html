@@ -9,6 +9,13 @@
     </div>
   </md-toolbar>
   <md-dialog-content>
+    <div ng-show="$root.isEMPRESA==true" class="md-padding dialogNuevaOferta" id="popupContainer" ng-cloak>
+      <div ng-controller="NuevaOfertaController"  class="dialogNuevaOferta-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+        <md-button class="md-primary md-raised my-button" ng-click="showNuevaOferta(licitacion)" min-width=200px>
+          Presentar oferta
+        </md-button>
+      </div>
+    </div>
     <div class="md-dialog-content" flex="100">
       <md-content md-theme="docs-dark">
         <md-input-container class="md-block" flex="95">

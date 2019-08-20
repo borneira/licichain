@@ -11,6 +11,10 @@
       "type": "string",
       "required": true
     },
+    "tipo": {
+      "type": "string",
+      "required": true
+    },
     "clave": {
       "type": "string"
     }

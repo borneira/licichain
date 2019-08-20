@@ -6,7 +6,7 @@ angular.module('nuevaLicitacion', ['ngMaterial'])
     $scope.showNuevaLicitacion = function(ev) {
       $mdDialog.show({
         controller: LicitacionFormController,
-        templateUrl: 'licitacion-form/licitacion-form.template2.html',
+        templateUrl: 'licitacion-form/licitacion-form.template.html',
         parent: angular.element(document.body),
         targetEvent: ev,
         clickOutsideToClose: true,

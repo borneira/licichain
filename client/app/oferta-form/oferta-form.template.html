@@ -1,0 +1,45 @@
+<md-dialog aria-label="Nueva licitación" flex="80">
+  <form ng-cloak ng-submit="grabarNuevaOferta()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Nueva oferta</h2>
+        <span flex></span>
+        <md-button layout-align="right" class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div>
+        {{status}}
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+      <div class="md-dialog-content" flex="100">
+        <md-content md-theme="docs-dark">
+          <md-input-container class="md-block" flex="95">
+            <label>Empresa</label>
+            <input ng-model="oferta.empresa" disabled>
+          </md-input-container>
+        </md-content>
+        <md-input-container class="md-block">
+          <label>Oferta a valorar subjetivamente</label>
+          <textarea ng-model="oferta.subjetiva"></textarea>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Oferta a valorar objetivamente</label>
+          <textarea ng-model="oferta.objetiva"></textarea>
+        </md-input-container>
+        <div layout="row" flex="95">
+          <md-button class="md-primary md-raised" type="Submit">
+            Grabar
+          </md-button>
+        </div>
+      </div>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
+
+
+
+

@@ -4,7 +4,6 @@ angular.module('showLicitacion', ['ngMaterial'])
     $scope.status= "   ";
     $scope.licitacion=[];
     $scope.showLicitacion = function(ev) {
-      alert('Hola');
       $mdDialog.show({
         controller: LicitacionDetailController,
         templateUrl: 'licitacion-detail/licitacion-detail.template.html',

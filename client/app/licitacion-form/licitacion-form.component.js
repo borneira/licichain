@@ -1,7 +1,8 @@
-function LicitacionFormController($scope, $mdDialog, Licitacion) {
+function LicitacionFormController($scope, $mdDialog, Licitacion, $rootScope) {
 $scope.licitaciones=[];
 $scope.status= '';
 $scope.licitacion={};
+$scope.licitacion.org_contratacion = $rootScope.usuario.descripcion;
   function getLicitaciones() {
     Licitacion
       .find()
@@ -38,7 +39,3 @@ $scope.licitacion={};
   };
   getLicitaciones();
 };
-/*angular.module('licichainApp').component('licitacionForm', { //AngularJS interpretará <licitacion-form>
-  templateUrl: 'licitacion-form/licitacion-form.template.html',
-  controller: LicitacionFormController
-});*/

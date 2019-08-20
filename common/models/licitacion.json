@@ -104,6 +104,13 @@
       "principalId": "AAPP",
       "permission": "ALLOW",
       "property": "upsert"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "EMPRESA",
+      "permission": "ALLOW",
+      "property": "__create__oferta"
     }
   ],
   "methods": {}

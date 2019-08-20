@@ -13,12 +13,14 @@ module.exports = function(app) {
           email: 'juan@borneira.com',
           password: 'Passw0rd',
           descripcion: 'Borneira, S.A.',
+          tipo: 'EMPRESA'
         },
         {
           username: 'aytovigo',
           email: 'contratacion@aytovigo.es',
           password: 'Passw0rd',
           descripcion: 'Ayuntamiento de Vigo',
+          tipo: 'AAPP'
         },
       ], function(err, users) {
         if (err) throw err;
