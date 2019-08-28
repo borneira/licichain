@@ -2,85 +2,111 @@ pragma solidity ^0.5.3;
 
 contract Bid {
 
-    address public owner;
+  address public owner;
 
-    string public objeto;
-    string public cpv;
-    uint public fecha_inicio;
-    uint public fecha_fin;
-    uint public fecha_mesa_adm;
-    uint public fecha_mesa_subj;
-    uint public fecha_mesa_obj;
-    string public org_contratacion;
-    uint public importe_max;
-    uint public importe_adj;
-    string public PPT_hash;
-    string public PCA_hash;
-    string public criterios;
+  struct Licitacion {
+    string objeto;
+    uint[] fechas;
+    string org_contratacion;
+    uint importe_max;
+    uint importe_adj;
+    string CPV;
+    string PPTHash;
+    string PCAHash;
+    string criterios;
+  }
 
-///TODO: Completar Oferta
-    struct Oferta {
-        string oferta_subj_hash;
-        string oferta_obj_cifrada;
-    }
+  struct Fechas {
+    uint fecha_inicio;
+    uint fecha_fin;
+    uint fecha_mesa_adm;
+    uint fecha_mesa_subj;
+    uint fecha_mesa_obj;
+  }
 
-    mapping(address => Oferta[]) public ofertas;
+  Licitacion public licitacion;
+  Fechas public fechas;
 
-    /// Modifiers are a convenient way to validate inputs to
-    /// functions. `onlyBefore` is applied to `bid` below:
-    /// The new function body is the modifier's body where
-    /// `_` is replaced by the old function body.
-    modifier onlyBefore(uint _time) { require(now < _time); _; }
-    modifier onlyAfter(uint _time) { require(now > _time); _; }
+  struct Oferta {
+    string empresa;
+    string nonce;
+    string empresaHash;
+    string subjetivaHash;
+    string objetivaHash;
+    string objetivaCifrada;
+    string objetiva;
+  }
 
-    constructor(
-        string memory _objeto,
-        uint _fecha_inicio,
-        uint _fecha_fin,
-        uint _fecha_mesa_adm,
-        uint _fecha_mesa_obj,
-        string memory _org_contratacion,
-        uint _importe_max,
-        string memory _PPT_hash,
-        string memory _PCA_hash,
-        string memory _criterios
-    ) public {
-        owner = msg.sender;
+  uint numOfertas;
+  mapping (uint => Oferta) public ofertas;
+  mapping (string => uint) ofertasIndex;
 
-        objeto = _objeto;
-        org_contratacion = _org_contratacion;
-        fecha_inicio = _fecha_inicio;
-        fecha_fin = _fecha_fin;
-        fecha_mesa_adm = _fecha_mesa_adm;
-        fecha_mesa_obj = _fecha_mesa_obj;
-        importe_max = _importe_max;
-        PPT_hash = _PPT_hash;
-        PCA_hash = _PCA_hash;
-        criterios = _criterios;
-     }
 
-     function setCpv(string  memory _CPV) public {
-        require(msg.sender == owner);
-        cpv = _CPV;
-     }
+  /// Modifiers are a convenient way to validate inputs to
+  /// functions. `onlyBefore` is applied to `bid` below:
+  /// The new function body is the modifier's body where
+  /// `_` is replaced by the old function body.
+  modifier onlyBefore(uint _time) { require(now < _time); _; }
+  modifier onlyAfter(uint _time) { require(now > _time); _; }
 
-     function setFecha_subj(uint _fecha_mesa_subj) public {
-        require(msg.sender == owner);
-        fecha_mesa_subj = _fecha_mesa_subj;
-     }
+  constructor(
+    string memory _objeto,
+    string memory _org_contratacion,
+    uint _importe_max,
+    string memory _CPV,
+    string memory _PPTHash,
+    string memory _PCAHash,
+    string memory _criterios
+  ) public {
+    owner = msg.sender;
+    licitacion.objeto = _objeto;
+    licitacion.org_contratacion = _org_contratacion;
+    licitacion.importe_max = _importe_max;
+    licitacion.CPV = _CPV;
+    licitacion.PPTHash = _PPTHash;
+    licitacion.PCAHash = _PCAHash;
+    licitacion.criterios = _criterios;
+  }
 
-     function setImporte_adj(uint _importe_adj) public {
-         require(msg.sender == owner);
-         importe_adj = _importe_adj;
-     }
-///     function getObjeto() public view returns (string memory _objeto) {
-///        _objeto = objeto;
-///     }
-///     function getLicitacion() public view returns(string memory, string memory,
-///                                                  uint, uint, uint, uint,
-///                                                  uint, string memory, uint, uint,
-///                                                  string memory, string memory, string memory) {
-///        return (licitacion.objeto, licitacion.CPV, licitacion.fecha_inicio, licitacion.fecha_fin, licitacion.fecha_mesa_adm, licitacion.fecha_mesa_subj, licitacion.fecha_mesa_obj, licitacion.org_contratacion, licitacion.importe_max, licitacion.importe_adj, licitacion.PPT_hash, licitacion.PCA_hash, licitacion.criterios);
-///     }
+  function setFechas (uint fecha_inicio, uint fecha_fin, uint fecha_mesa_adm, uint fecha_mesa_subj, uint fecha_mesa_obj) public {
+    require(msg.sender == owner);
+    fechas.fecha_inicio = fecha_inicio;
+    fechas.fecha_fin = fecha_fin;
+    fechas.fecha_mesa_adm = fecha_mesa_adm;
+    fechas.fecha_mesa_subj = fecha_mesa_subj;
+    fechas.fecha_mesa_obj = fecha_mesa_obj;
+  }
+
+  function setImporte_adj(uint importe_adj) public {
+    require(msg.sender == owner);
+    licitacion.importe_adj = importe_adj;
+  }
+
+  function nuevaOferta(
+    string memory empresaHash,
+    string memory subjetivaHash,
+    string memory objetivaHash,
+    string memory objetivaCifrada) public returns (uint ofertaID) {
+    ofertaID = numOfertas++;
+    ofertas[ofertaID] = Oferta('', '', empresaHash, subjetivaHash, objetivaHash, objetivaCifrada, '');
+    ofertasIndex[empresaHash] = ofertaID;
+  }
+
+  function getOfertaID(string memory empresaHash) public view returns (uint ofertaID) {
+    ofertaID = ofertasIndex[empresaHash];
+  }
+
+  function revelaEmpresa(string memory empresaHash, string memory empresa, string memory nonce) public  {
+    require(msg.sender == owner);
+    uint ofertaID = ofertasIndex[empresaHash];
+    ofertas[ofertaID].empresa = empresa;
+    ofertas[ofertaID].nonce = nonce;
+  }
+
+  function revelaOfertaObjetiva(string memory empresaHash, string memory objetiva) public  {
+    require(msg.sender == owner);
+    uint ofertaID = ofertasIndex[empresaHash];
+    ofertas[ofertaID].objetiva = objetiva;
+  }
 
 }

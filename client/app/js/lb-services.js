@@ -2128,6 +2128,48 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
 
             /**
              * @ngdoc method
+             * @name lbServices.Licitacion#getDetail
+             * @methodOf lbServices.Licitacion
+             *
+             * @description
+             *
+             * <em>
+             * (The remote method definition does not provide any description.)
+             * </em>
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *   This method does not accept any parameters.
+             *   Supply an empty object or omit this argument altogether.
+             *
+             * @param {Object} postData Request data.
+             *
+             *  - `licitacionId` – `{string=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `licitacion` – `{Licitacion=}` -
+             */
+            "getDetail": {
+              url: urlBase + "/licitaciones/getDetail",
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              }
+            },
+
+            /**
+             * @ngdoc method
              * @name lbServices.Licitacion#prototype$__get__oferta__licitacion
              * @methodOf lbServices.Licitacion
              *

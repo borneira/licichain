@@ -20,8 +20,16 @@ function OfertaFormController($scope, $mdDialog, Oferta, $rootScope, licitacion,
     var clave1 = await cryptoUtils.generateKey();
     var clave2 = await cryptoUtils.generateKey();
     var oferta_enc = {};
-    oferta_enc.subjetiva = await cryptoUtils.encrypt(clave1.key, $scope.oferta.subjetiva);
-    oferta_enc.objetiva = await cryptoUtils.encrypt(clave2.key, $scope.oferta.objetiva);
+    oferta_enc.subjetivaCifrada = await cryptoUtils.encrypt(clave1.key, $scope.oferta.subjetiva);
+    oferta_enc.objetivaCifrada  = await cryptoUtils.encrypt(clave2.key, $scope.oferta.objetiva);
+    oferta_enc.subjetivaHash = await cryptoUtils.sha256($scope.oferta.subjetiva);
+
+    //TODO
+    // Se debe utilizar un nonce para evitar que se pueda averiguar la oferta objetiva por ataque con diccionario
+    // El nonce debe guardarlo la empresa junto con las claves
+    oferta_enc.objetivaHash  = await cryptoUtils.sha256($scope.oferta.objetiva);
+    oferta_enc.empresa = $scope.oferta.empresa;
+    console.log(oferta_enc);
 
     await $mdDialog.show(
       $mdDialog.confirm()
@@ -39,7 +47,7 @@ function OfertaFormController($scope, $mdDialog, Oferta, $rootScope, licitacion,
         .closeTo(angular.element(document.querySelector('#right')))
     );
 
-    Licitacion.oferta.create({id: $scope.licitacion.id}, $scope.oferta)
+    Licitacion.oferta.create({id: $scope.licitacion.id}, oferta_enc)
       .$promise
       .then(function(results) {
           $mdDialog.hide();

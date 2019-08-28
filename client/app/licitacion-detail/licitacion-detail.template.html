@@ -9,10 +9,30 @@
     </div>
   </md-toolbar>
   <md-dialog-content>
-    <div ng-show="$root.isEMPRESA==true" class="md-padding dialogNuevaOferta" id="popupContainer" ng-cloak>
-      <div ng-controller="NuevaOfertaController"  class="dialogNuevaOferta-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+    <div  class="md-padding dialogNuevaOferta" id="popupContainer" ng-cloak layout="row" flex>
+      <div ng-show="$root.isEMPRESA==true" ng-controller="NuevaOfertaController"  class="dialogNuevaOferta-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
         <md-button class="md-primary md-raised my-button" ng-click="showNuevaOferta(licitacion)" min-width=200px>
           Presentar oferta
+        </md-button>
+      </div>
+      <div ng-controller="VerOfertasController"  class="dialogVerOfertas-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+        <md-button class="md-primary md-raised my-button" ng-click="showOfertas(licitacion)" min-width=200px>
+          Ver ofertas
+        </md-button>
+      </div>
+      <div ng-show="$root.isAAPP==true" ng-controller="MesaAdministrativaController"  class="dialogMesaAdministrativa-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+        <md-button class="md-primary md-raised my-button" ng-click="mesaAdministrativa(licitacion)" min-width=200px>
+          Mesa administrativa
+        </md-button>
+      </div>
+      <div ng-show="$root.isAAPP==true" ng-controller="MesaSubjetivaController"  class="dialogMesaSubjetiva-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+        <md-button class="md-primary md-raised my-button" ng-click="mesaSubjetiva(licitacion)" min-width=200px>
+          Mesa criterios subjetivos
+        </md-button>
+      </div>
+      <div ng-show="$root.isAAPP==true" ng-controller="MesaObjetivaController"  class="dialogMesaObjetiva-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+        <md-button class="md-primary md-raised my-button" ng-click="mesaObjetiva(licitacion)" min-width=200px>
+          Mesa criterios objetivos
         </md-button>
       </div>
     </div>
@@ -93,14 +113,17 @@
       <md-input-container class="md-block">
         <label>Dirección Smart Contract</label>
         <textarea disabled ng-model="licitacion.sc.address"></textarea>
+
       </md-input-container>
 
 
     </div>
+    <oferta-list></oferta-list>
   </md-dialog-content>
   <md-dialog-actions>
   </md-dialog-actions>
 </md-dialog>
+
 
 
 

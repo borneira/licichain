@@ -7,16 +7,35 @@
     "validateUpsert": true
   },
   "properties": {
+    "ofertaScId": {
+      "type": "number"
+    },
     "empresa": {
-      "type": "string",
-      "required": true
+      "type": "string"
+    },
+    "nonce": {
+      "type": "string"
+    },
+    "empresaHash": {
+      "type": "string"
     },
     "subjetiva": {
       "type": "string"
     },
+    "subjetivaCifrada": {
+      "type": "string"
+    },
     "objetiva": {
-      "type": "string",
-      "required": true
+      "type": "string"
+    },
+    "objetivaCifrada": {
+      "type": "string"
+    },
+    "subjetivaHash": {
+      "type": "string"
+    },
+    "objetivaHash": {
+      "type": "string"
     }
   },
   "validations": [],

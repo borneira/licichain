@@ -1,5 +1,20 @@
-function LicitacionDetailController($scope, $mdDialog, licitacion) {
-  $scope.licitacion = licitacion;
+function LicitacionDetailController($scope, $mdDialog, licitacion, Licitacion) {
+
+  function getLicitacionDetail(licitacionId) {
+    Licitacion
+      .getDetail('licitacionId='+licitacionId)
+      .$promise
+      .then(function(result) {
+        console.log(result);
+          $scope.licitacion = result.licitacion;
+        },
+        function(err) {
+          $scope.licitacionError = err.statusText;
+        }
+      );
+  }
+
+
   $scope.hide = function() {
     $mdDialog.hide();
   };
@@ -11,5 +26,7 @@ function LicitacionDetailController($scope, $mdDialog, licitacion) {
   $scope.answer = function(answer) {
     $mdDialog.hide(answer);
   };
+  console.log(licitacion);
+  getLicitacionDetail(licitacion.id);
 
 };

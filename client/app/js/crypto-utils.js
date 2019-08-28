@@ -13,15 +13,10 @@ function hexToArrayBuffer (hex) {
 }
 
 function arrayBufferToString(buf) {
-  return String.fromCharCode.apply(null, new Uint16Array(buf));
+  return new TextDecoder().decode(buf);
 }
 function stringToArrayBuffer(str) {
-  var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
-  var bufView = new Uint16Array(buf);
-  for (var i=0, strLen=str.length; i < strLen; i++) {
-    bufView[i] = str.charCodeAt(i);
-  }
-  return buf;
+  return new TextEncoder().encode(str);
 }
 
 function arrayBufferToBase64( buffer ) {
@@ -106,7 +101,18 @@ var cryptoUtils  = {
       key, //from generateKey or importKey above
       base64ToArrayBuffer(base64String) //ArrayBuffer of the data
     );
-    return arrayBufferToString(dataDecrypted);
+    return arrayBufferToHex(dataDecrypted);
+  },
+
+  sha256: async function(dataString) {
+    var dataHash = await window.crypto.subtle.digest(
+      {
+        name: "SHA-256",
+      },
+      stringToArrayBuffer(dataString)
+    );
+    console.log(dataHash);
+    return arrayBufferToHex(dataHash);
   }
 };
 

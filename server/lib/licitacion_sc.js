@@ -1,8 +1,7 @@
-
 const Web3 = require('web3');
 const solc = require('solc');
 const path = require('path');
-const hash = require('js-sha256')
+const hash = require('js-sha256');
 const {readFileSync} = require('fs');
 
 const myContractPath = './contracts/licitacion.sol';
@@ -43,49 +42,69 @@ module.exports = {
 
     // TODO: Controlar errores de compilación
     const contractJSON = JSON.parse(solc.compile(JSON.stringify(input)));
+//    console.log(contractJSON);
     const abi = contractJSON.contracts['licitacion.sol']['Bid'].abi;
 
     // La salida siguiente se puede cargar en la consola de Quorum Maker como ABI
     // console.log(JSON.stringify(abi));
     const contractData = '0x' + contractJSON
       .contracts['licitacion.sol']['Bid'].evm.bytecode.object;
-    contract = new web3.eth.Contract(abi);
+    let contract = new web3.eth.Contract(abi);
     contract.options.gasPrice = 0;
-    contract.options.gas = 10000000;
+    contract.options.gas = 40000000;
     contract.options.data = contractData;
-//El defaultAccount no sirve para deploy :-(
+//  El defaultAccount no sirve para deploy :-(
     contract.options.from = acc.address;
 
     // No almacenaremos el PPT y PCA completos, sino sus hashes
     licitacion.PPTHash = hash.sha256(licitacion.ppt);
     licitacion.PCAHash = hash.sha256(licitacion.pca);
 
+    // let contractDeployed = await contract.deploy({
+    //   arguments: [
+    //     licitacion.objeto,
+    //     Math.round(licitacion.fecha_inicio.getTime() / 1000),
+    //     Math.round(licitacion.fecha_fin.getTime() / 1000),
+    //     Math.round(licitacion.fecha_mesa_adm.getTime() / 1000),
+    //     Math.round(licitacion.fecha_mesa_obj.getTime() / 1000),
+    //     licitacion.org_contratacion,
+    //     licitacion.importe_max,
+    //     licitacion.PPTHash,
+    //     licitacion.PCAHash,
+    //     licitacion.criterios,
+    //   ],
+    // }).send();
+
+    let lic = {};
+    lic.objeto = licitacion.objeto;
+    lic.org_contratacion = licitacion.org_contratacion;
+    lic.importe_max = licitacion.importe_max;
+    lic.importe_adj = 0;
+    lic.CPV = licitacion.CPV;
+    lic.PPTHash = licitacion.PPTHash;
+    lic.PCAHash = licitacion.PCAHash;
+    lic.criterios = licitacion.criterios;
     let contractDeployed = await contract.deploy({
       arguments: [
-        licitacion.objeto,
-        Math.round(licitacion.fecha_inicio.getTime() / 1000),
-        Math.round(licitacion.fecha_fin.getTime() / 1000),
-        Math.round(licitacion.fecha_mesa_adm.getTime() / 1000),
-        Math.round(licitacion.fecha_mesa_obj.getTime() / 1000),
-        licitacion.org_contratacion,
-        licitacion.importe_max,
-        licitacion.PPTHash,
-        licitacion.PCAHash,
-        licitacion.criterios
-      ]
+        lic.objeto, lic.org_contratacion, lic.importe_max,
+        lic.CPV, lic.PPTHash, lic.PCAHash, lic.criterios
+      ],
     }).send();
     licitacion.sc = {
       address: contractDeployed.options.address,
-      jsonInterface: JSON.stringify(contractDeployed.options.jsonInterface)
+      jsonInterface: JSON.stringify(contractDeployed.options.jsonInterface),
     };
 
-    if (licitacion.CPV) {
-      await contractDeployed.methods.setCpv(licitacion.CPV);
-    }
+    let fechas  = {};
 
-    if (licitacion.fecha_mesa_subj) {
-      await contractDeployed.methods.setFecha_subj(Math.round((licitacion.fecha_mesa_subj).getTime() / 1000));
-    }
+    fechas.fecha_inicio = Math.round(licitacion.fecha_inicio.getTime() / 1000);
+    fechas.fecha_fin = Math.round(licitacion.fecha_fin.getTime() / 1000);
+    fechas.fecha_mesa_adm = Math.round(licitacion.fecha_mesa_adm.getTime() / 1000);
+    fechas.fecha_mesa_subj = (Math.round(licitacion.fecha_mesa_subj.getTime() / 1000) || 0);
+    fechas.fecha_mesa_obj = Math.round(licitacion.fecha_mesa_obj.getTime() / 1000);
+
+    console.log(fechas);
+    await contractDeployed.methods.setFechas(fechas.fecha_inicio, fechas.fecha_fin, fechas.fecha_mesa_adm, fechas.fecha_mesa_subj, fechas.fecha_mesa_obj).send();
     return licitacion;
   },
 
@@ -96,32 +115,34 @@ module.exports = {
    * @return {Object}            Licitacion
    */
   getLicitacion: async function(address, jsonInterface) {
-    abi = JSON.parse(jsonInterface);
-    contract = new web3.eth.Contract(abi, address, {
+    let abi = JSON.parse(jsonInterface);
+    let contract = new web3.eth.Contract(abi, address, {
       from: acc.address,
       gasPrice: 0,
-      gas: 1000000
+      gas: 1000000,
     });
-    let licitacion = {};
-    licitacion.objeto = await contract.methods.objeto().call();
-    licitacion.CPV = await contract.methods.cpv().call();
-    licitacion.fecha_inicio = new Date(await contract.methods.fecha_inicio().call()*1000);
-    licitacion.fecha_fin = new Date(await contract.methods.fecha_fin().call()*1000);
-    licitacion.fecha_mesa_adm = new Date(await contract.methods.fecha_mesa_adm().call()*1000);
-    licitacion.fecha_mesa_subj = new Date(await contract.methods.fecha_mesa_subj().call()*1000);
-    licitacion.fecha_mesa_obj = new Date(await contract.methods.fecha_mesa_obj().call()*1000);
-    licitacion.org_contratacion = await contract.methods.org_contratacion().call();
-    licitacion.importe_max = await contract.methods.importe_max().call();
-    licitacion.importe_adj = await contract.methods.importe_adj().call();
-    licitacion.PPTHash = await contract.methods.PPT_hash().call();
-    licitacion.PCAHash = await contract.methods.PCA_hash().call();
-    licitacion.criterios = await contract.methods.criterios().call();
-    licitacion.sc = {
-      address: address,
-      jsonInterface: jsonInterface
-    };
 
-    return licitacion;
+    let licitacionBl = null;
+    let fechas = null;
+    try {
+
+    licitacionBl = await contract.methods.licitacion().call();
+    fechas = await contract.methods.fechas().call();
+  } catch(err){
+      console.log(err);
+    }
+    console.log(fechas);
+    licitacionBl.fecha_inicio = new Date(fechas.fecha_inicio*1000);
+    licitacionBl.fecha_fin = new Date(fechas.fecha_fin*1000);
+    licitacionBl.fecha_mesa_adm = new Date(fechas.fecha_mesa_adm*1000);
+    licitacionBl.fecha_mesa_subj = new Date(fechas.fecha_mesa_subj*1000);
+    licitacionBl.fecha_mesa_obj = new Date(fechas.fecha_mesa_subj*1000);
+
+    licitacionBl.sc = {
+      address: address,
+      jsonInterface: jsonInterface,
+    };
+    return licitacionBl;
   },
 
   /**
@@ -131,15 +152,37 @@ module.exports = {
    * @param  {Object}            Oferta
    * @return {Object}            XXXX
    */
-  addOferta:  async function(address, jsonInterface, oferta) {
+  nuevaOferta: async function(address, jsonInterface, oferta) {
     abi = JSON.parse(jsonInterface);
     contract = new web3.eth.Contract(abi, address, {
       from: acc.address,
       gasPrice: 0,
-      gas: 1000000
+      gas: 1000000,
     });
-    await contract.methods.addOferta(oferta.empresa, oferta.objetiva, oferta.subjetiva);
-  }
+    await contract.methods.nuevaOferta(oferta.empresaHash, oferta.subjetivaHash, oferta.objetivaHash, oferta.objetivaCifrada).send();
+    var ofertaScId = await contract.methods.getOfertaID(oferta.empresaHash).call();
+    return ofertaScId;
+  },
+  /**
+   * Recupera el contenido de la oferta en blockchain en base al hash de la empresa
+   * @param  {String}            Address
+   * @param  {String}            JSONInterface
+   * @param  {String}            empresaHash
+   * @return {Object}            Oferta
+   */
+
+  getOferta: async function(address, jsonInterface, empresaHash) {
+    abi = JSON.parse(jsonInterface);
+    contract = new web3.eth.Contract(abi, address, {
+      from: acc.address,
+      gasPrice: 0,
+      gas: 1000000,
+    });
+    var ofertaScId = await contract.methods.getOfertaID(empresaHash).call();
+    var oferta = await contract.methods.ofertas(ofertaScId).call();
+    return oferta;
+  },
+
 };
 
 
