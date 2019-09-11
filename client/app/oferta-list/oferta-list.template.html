@@ -11,7 +11,9 @@
       <th md-column><span>Empresa</span></th>
       <th md-column><span>Oferta subjetiva - Hash</span></th>
       <th md-column><span>Oferta objetiva - Hash</span></th>
-      <th md-column><span>Oferta objetiva</span></th>
+      <th md-column><span>Oferta objetiva - Cifrada</span></th>
+      <th md-column><span>Oferta objetiva - En claro</span></th>
+
     </tr>
     </thead>
     <tbody md-body>
@@ -19,7 +21,8 @@
       <td md-cell ng-click="showLicitacion(oferta)">{{oferta.empresa}}</td>
       <td md-cell>{{oferta.subjetivaHash}}</td>
       <td md-cell>{{oferta.objetivaHash}}</td>
-      <td md-cell>{{oferta.objetivaHash}} €</td>
+      <td md-cell>{{oferta.objetivaCifrada}}</td>
+      <td md-cell>{{oferta.objetiva}}</td>
     </tr>
     </tbody>
   </table>

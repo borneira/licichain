@@ -15,9 +15,14 @@
           Presentar oferta
         </md-button>
       </div>
-      <div ng-controller="VerOfertasController"  class="dialogVerOfertas-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
-        <md-button class="md-primary md-raised my-button" ng-click="showOfertas(licitacion)" min-width=200px>
-          Ver ofertas
+      <div ng-show="$root.isEMPRESA==true" ng-controller="RevelarOfertaController"  class="dialogNuevaOferta-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+      <md-button class="md-primary md-raised my-button" ng-click="revelarOferta(licitacion, 'subjetiva')" min-width=200px>
+        Revelar oferta subjetiva
+      </md-button>
+    </div>
+      <div ng-show="$root.isEMPRESA==true" ng-controller="RevelarOfertaController"  class="dialogNuevaOferta-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+        <md-button class="md-primary md-raised my-button" ng-click="revelarOferta(licitacion, 'objetiva')" min-width=200px>
+          Revelar oferta objetiva
         </md-button>
       </div>
       <div ng-show="$root.isAAPP==true" ng-controller="MesaAdministrativaController"  class="dialogMesaAdministrativa-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">

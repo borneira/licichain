@@ -67,7 +67,7 @@ function base64ToArrayBuffer(base64) {
     let keydata = bip39.mnemonicToEntropy(mnemonic).toString('hex');
     let key = await window.crypto.subtle.importKey(
       "raw",
-      hexToArrayBuffer(keydata)
+      hexToArrayBuffer(key)
       ,
       {
         name: "AES-CTR",
@@ -96,13 +96,13 @@ function base64ToArrayBuffer(base64) {
     var dataDecrypted = await window.crypto.subtle.decrypt(
       {
         name: "AES-CTR",
-        counter: new ArrayBuffer(16),
+        counter: ArrayBuffer(16),
         length: 128
       },
       key, //from generateKey or importKey above
       base64ToArrayBuffer(base64String) //ArrayBuffer of the data
     );
-    return arrayBufferToString(dataDecrypted);
+    return arrayBufferToHex(dataDecrypted);
   };
 
   exports.sha256 = async function(dataString) {

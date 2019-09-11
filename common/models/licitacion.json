@@ -65,6 +65,9 @@
     "sc": {
       "type": "object"
     },
+    "empresaAdjudicataria": {
+      "type": "string"
+    },
     "inconsistencias": {
       "type": "array"
     }
@@ -76,7 +79,23 @@
       "model": "oferta",
       "foreignKey": "",
       "options": {
-        "nestRemoting": true
+        "nestRemoting": false
+      }
+    },
+    "smartContract": {
+      "type": "hasOne",
+      "model": "smartContract",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": false
+      }
+    },
+    "administracion": {
+      "type": "hasOne",
+      "model": "administracion",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": false
       }
     }
   },
@@ -118,15 +137,144 @@
     {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
-      "principalId": "EMPRESA",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getOfertasBl"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "AAPP",
+      "permission": "ALLOW",
+      "property": "mesaAdministrativa"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "AAPP",
+      "permission": "ALLOW",
+      "property": "mesaSubjetiva"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "AAPP",
+      "permission": "ALLOW",
+      "property": "mesaObjetiva"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "__create__oferta"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "EMPRESA",
+      "permission": "ALLOW",
+      "property": "__get__oferta"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "AAPP",
+      "permission": "ALLOW",
+      "property": "__get__oferta"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "EMPRESA",
+      "permission": "ALLOW",
+      "property": "revelaOferta"
     }
   ],
   "methods": {
     "getDetail": {
-      "accepts": {"arg": "licitacionId", "type": "string"},
-      "returns": {"arg": "licitacion", "type": "Licitacion"}
+      "description": "Retrieve licitacion's information from the Blockchain",
+      "accepts": {
+        "arg": "licitacionId",
+        "type": "string"
+      },
+      "returns": {
+        "arg": "licitacion",
+        "type": "Licitacion"
+      }
+    },
+    "getOfertasBl": {
+      "description": "Retrieve ofertas' information from the Blockchain",
+      "accepts": {
+        "arg": "licitacionId",
+        "type": "string"
+      },
+      "returns": {
+        "arg": "ofertas",
+        "type": "array"
+      }
+    },
+    "mesaAdministrativa": {
+      "description": "Simulates the administrative meeting, revealing company' identities",
+      "accepts": {
+        "arg": "licitacionId",
+        "type": "string"
+      },
+      "returns": {
+        "arg": "result",
+        "type": "string"
+      }
+    },
+    "mesaSubjetiva": {
+      "description": "Simulates the subjective criteria evalution meeting and gives scores for the offers",
+      "accepts": [{
+        "arg": "licitacionId",
+        "type": "string"
+      },
+        {
+          "arg": "ofertas",
+          "type": "array"
+        }],
+      "returns": {
+        "arg": "result",
+        "type": "string"
+      }
+    },
+    "mesaObjetiva": {
+      "description": "Simulates the objective criteria evalution meeting and gives scores for the offers based on formulae",
+      "accepts": {
+        "arg": "licitacionId",
+        "type": "string"
+      },
+      "returns": {
+        "arg": "result",
+        "type": "string"
+      }
+    },
+    "revelaOferta": {
+      "description": "Reveals offer to the administration",
+      "accepts": [
+        {
+          "arg": "licitacionId",
+          "type": "string"
+        },
+        {
+          "arg": "oferta",
+          "type": "string"
+        },
+        {
+          "arg": "tipoOferta",
+          "type": "string"
+        },
+        {
+          "arg": "empresa",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "arg": "resultado",
+        "type": "string"
+      }
     }
   }
 }

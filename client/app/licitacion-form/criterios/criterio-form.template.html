@@ -1,0 +1,49 @@
+<md-dialog aria-label="Nuevo criterio" flex="80">
+  <form ng-cloak ng-submit="grabarCriterio()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Nuevo criterio</h2>
+        <span flex></span>
+        <md-button layout-align="right" class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-actions>
+      <div class="md-dialog-content" flex="100">
+        <md-content md-theme="docs-dark">
+          <md-input-container class="md-block" flex="95">
+            <label>Nombre</label>
+            <input ng-model="criterio.nombre">
+          </md-input-container>
+        </md-content>
+        <md-input-container class="md-block">
+          <label>Peso</label>
+          <input ng-model="criterio.peso">
+        </md-input-container>
+        <md-input-container class="md-block">
+          <div layout="row" layout-align="space-between center">
+          <label>Fórmula</label>
+          <md-select ng-model="criterio.formula" placeholder="Formula" class="md-no-underline">
+            <md-option value="relativa">Relativa</md-option>
+            <md-option value="absoluta">Absoluta</md-option>
+          </md-select>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Valor mínimo</label>
+          <input ng-model="criterio.vmin">
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Valor máximo</label>
+          <input ng-model="criterio.vmax">
+        </md-input-container>
+        <div layout="row" flex="95">
+          <md-button class="md-primary md-raised" type="Submit">
+            Grabar
+          </md-button>
+        </div>
+      </div>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

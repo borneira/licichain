@@ -1,0 +1,23 @@
+{
+  "name": "smartContract",
+  "plural": "smartContracts",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "address": {
+      "type": "string",
+      "required": true
+    },
+    "interface": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

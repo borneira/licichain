@@ -6,6 +6,7 @@ contract Bid {
 
   struct Licitacion {
     string objeto;
+    uint[] fechas;
     string org_contratacion;
     uint importe_max;
     uint importe_adj;
@@ -34,7 +35,6 @@ contract Bid {
     string objetivaHash;
     string objetivaCifrada;
     string objetiva;
-    uint8[2] valoraciones;
   }
 
   uint numOfertas;
@@ -88,11 +88,10 @@ contract Bid {
     string memory subjetivaHash,
     string memory objetivaHash,
     string memory objetivaCifrada) public returns (uint ofertaID) {
-    ///    require (now >= fechas.fecha_inicio);
-    ///    require (now <= fechas.fecha_fin);
-    require(msg.sender == owner);
+    require (now >= fechas.fecha_inicio);
+    require (now <= fechas.fecha_fin);
     ofertaID = numOfertas++;
-    ofertas[ofertaID] = Oferta('', '', empresaHash, subjetivaHash, objetivaHash, objetivaCifrada, '', [0, 0]);
+    ofertas[ofertaID] = Oferta('', '', empresaHash, subjetivaHash, objetivaHash, objetivaCifrada, '');
     ofertasIndex[empresaHash] = ofertaID;
   }
 
@@ -102,7 +101,7 @@ contract Bid {
 
   function revelaEmpresa(string memory empresaHash, string memory empresa, string memory nonce) public  {
     require(msg.sender == owner);
-    ///    require (now >= fechas.fecha_mesa_adm);
+    require (now >= fechas.fecha_mesa_adm);
     uint ofertaID = ofertasIndex[empresaHash];
     ofertas[ofertaID].empresa = empresa;
     ofertas[ofertaID].nonce = nonce;
@@ -110,23 +109,9 @@ contract Bid {
 
   function revelaOfertaObjetiva(string memory empresaHash, string memory objetiva) public  {
     require(msg.sender == owner);
-    ///    require (now >= fechas.fecha_mesa_obj);
+    require (now >= fechas.fecha_mesa_obj);
     uint ofertaID = ofertasIndex[empresaHash];
     ofertas[ofertaID].objetiva = objetiva;
-  }
-
-  function valoraOfertaSubjetiva(string memory empresaHash, uint8 valor) public  {
-    require(msg.sender == owner);
-    ///    require (now >= fechas.fecha_mesa_subj);
-    uint ofertaID = ofertasIndex[empresaHash];
-    ofertas[ofertaID].valoraciones[0] = valor;
-  }
-
-  function valoraOfertaObjetiva(string memory empresaHash, uint8 valor) public  {
-    require(msg.sender == owner);
-    ///    require (now >= fechas.fecha_mesa_obj);
-    uint ofertaID = ofertasIndex[empresaHash];
-    ofertas[ofertaID].valoraciones[1] = valor;
   }
 
 }

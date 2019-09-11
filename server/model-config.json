@@ -14,7 +14,8 @@
     ]
   },
   "User": {
-    "dataSource": "licichainDS"
+    "dataSource": "licichainDS",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "licichainDS",
@@ -55,6 +56,14 @@
     "public": true
   },
   "usuario": {
+    "dataSource": "licichainDS",
+    "public": true
+  },
+  "smartContract": {
+    "dataSource": "licichainDS",
+    "public": true
+  },
+  "administracion": {
     "dataSource": "licichainDS",
     "public": true
   }

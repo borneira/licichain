@@ -71,11 +71,13 @@
           <label>PCA</label>
           <textarea ng-model="licitacion.pca"></textarea>
         </md-input-container>
-
-        <md-input-container class="md-block">
-          <label>Criterios</label>
-          <textarea ng-model="licitacion.criterios"></textarea>
+        <label>Criterios</label>
+        <md-input-container class="md-block" ng-repeat="criterio in licitacion.criterios">
+          <textarea ng-value="criterio" disabled></textarea>
         </md-input-container>
+        <md-button class="md-primary md-raised my-button" ng-click="addCriterio(licitacion)" min-width=200px>
+          Añadir criterio
+        </md-button>
         <div layout="row" flex="95">
           <md-button class="md-primary md-raised" type="Submit">
             Grabar

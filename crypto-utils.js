@@ -39,9 +39,9 @@ function base64ToArrayBuffer(base64) {
   return bytes.buffer;
 }
 
-(function(exports) {
-
-  exports.generateKey = async function() {
+(function(exports)
+var cryptoUtils  = {
+  generateKey: async function() {
     var key = await window.crypto.subtle.generateKey(
       {
         name: "AES-CTR",
@@ -60,14 +60,14 @@ function base64ToArrayBuffer(base64) {
     return {
       "key": key,
       "mnemonic": mnemonic
-    }
-  };
+      }
+  },
 
-  exports.importkey = async function(mnemonic) {
-    let keydata = bip39.mnemonicToEntropy(mnemonic).toString('hex');
-    let key = await window.crypto.subtle.importKey(
+  importkey: async function(mnemonic) {
+    keydata = bip39.mnemonicToEntropy(mnemonic).toString('hex');
+    key = await window.crypto.subtle.importKey(
       "raw",
-      hexToArrayBuffer(keydata)
+      hexToArrayBuffer(key)
       ,
       {
         name: "AES-CTR",
@@ -76,10 +76,10 @@ function base64ToArrayBuffer(base64) {
       ["encrypt", "decrypt"]);
 
     return key;
-  };
+  },
 
-  exports.encrypt = async function(key, dataString) {
-    let dataEncrypted = await window.crypto.subtle.encrypt(
+  encrypt: async function(key, dataString) {
+    var dataEncrypted =  await window.crypto.subtle.encrypt(
       {
         name: "AES-CTR",
         counter: new Uint8Array(16),
@@ -89,23 +89,23 @@ function base64ToArrayBuffer(base64) {
       stringToArrayBuffer(dataString) //ArrayBuffer of data you want to encrypt
     );
     return arrayBufferToBase64(dataEncrypted);
-  };
+  },
 
-  exports.decrypt = async function(key, base64String) {
+  decrypt: async function(key, base64String) {
 
     var dataDecrypted = await window.crypto.subtle.decrypt(
       {
         name: "AES-CTR",
-        counter: new ArrayBuffer(16),
+        counter: ArrayBuffer(16),
         length: 128
       },
       key, //from generateKey or importKey above
       base64ToArrayBuffer(base64String) //ArrayBuffer of the data
     );
-    return arrayBufferToString(dataDecrypted);
-  };
+    return arrayBufferToHex(dataDecrypted);
+  },
 
-  exports.sha256 = async function(dataString) {
+  sha256: async function(dataString) {
     var dataHash = await window.crypto.subtle.digest(
       {
         name: "SHA-256",
@@ -114,8 +114,8 @@ function base64ToArrayBuffer(base64) {
     );
     console.log(dataHash);
     return arrayBufferToHex(dataHash);
-  };
-})(typeof exports === 'undefined'? this['cryptoUtils']={}: exports);
+  }
+};
 
 
 

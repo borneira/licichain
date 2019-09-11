@@ -1,5 +1,4 @@
-angular.module('nuevaOferta', ['ngMaterial'])
-
+angular.module('nuevaOferta', ['ngMaterial', 'ngSanitize'])
   .controller('NuevaOfertaController', function($scope, $mdDialog) {
     $scope.status= "   ";
     $scope.showNuevaOferta = function(licitacion) {
@@ -8,14 +7,9 @@ angular.module('nuevaOferta', ['ngMaterial'])
         templateUrl: 'oferta-form/oferta-form.template.html',
         parent: angular.element(document.body),
         clickOutsideToClose: true,
-        fullscreen: true,
+        multiple: true,
         controllerAs: 'ctrl',
         locals: {licitacion: licitacion}
       })
-        .then(function(answer) {
-          $scope.status = 'You said the information was "' + answer + '".';
-        }, function() {
-          $scope.status = 'You cancelled the dialog.';
-        });
     };
   });

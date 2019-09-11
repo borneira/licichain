@@ -1,6 +1,6 @@
 {
-  "name": "empresa",
-  "plural": "empresas",
+  "name": "administracion",
+  "plural": "administraciones",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -22,9 +22,9 @@
         "nestRemoting": false
       }
     },
-    "ofertas": {
+    "licitaciones": {
       "type": "hasMany",
-      "model": "oferta",
+      "model": "licitacion",
       "foreignKey": "",
       "options": {
         "nestRemoting": false

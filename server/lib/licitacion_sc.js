@@ -42,7 +42,7 @@ module.exports = {
 
     // TODO: Controlar errores de compilación
     const contractJSON = JSON.parse(solc.compile(JSON.stringify(input)));
-//    console.log(contractJSON);
+    console.log(contractJSON);
     const abi = contractJSON.contracts['licitacion.sol']['Bid'].abi;
 
     // La salida siguiente se puede cargar en la consola de Quorum Maker como ABI
@@ -60,21 +60,6 @@ module.exports = {
     licitacion.PPTHash = hash.sha256(licitacion.ppt);
     licitacion.PCAHash = hash.sha256(licitacion.pca);
 
-    // let contractDeployed = await contract.deploy({
-    //   arguments: [
-    //     licitacion.objeto,
-    //     Math.round(licitacion.fecha_inicio.getTime() / 1000),
-    //     Math.round(licitacion.fecha_fin.getTime() / 1000),
-    //     Math.round(licitacion.fecha_mesa_adm.getTime() / 1000),
-    //     Math.round(licitacion.fecha_mesa_obj.getTime() / 1000),
-    //     licitacion.org_contratacion,
-    //     licitacion.importe_max,
-    //     licitacion.PPTHash,
-    //     licitacion.PCAHash,
-    //     licitacion.criterios,
-    //   ],
-    // }).send();
-
     let lic = {};
     lic.objeto = licitacion.objeto;
     lic.org_contratacion = licitacion.org_contratacion;
@@ -84,12 +69,19 @@ module.exports = {
     lic.PPTHash = licitacion.PPTHash;
     lic.PCAHash = licitacion.PCAHash;
     lic.criterios = licitacion.criterios;
-    let contractDeployed = await contract.deploy({
-      arguments: [
-        lic.objeto, lic.org_contratacion, lic.importe_max,
-        lic.CPV, lic.PPTHash, lic.PCAHash, lic.criterios
-      ],
-    }).send();
+    console.log('Aquí');
+    let contractDeployed = null;
+    try {
+      contractDeployed = await contract.deploy({
+        arguments: [
+          lic.objeto, lic.org_contratacion, lic.importe_max,
+          lic.CPV, lic.PPTHash, lic.PCAHash, lic.criterios,
+        ],
+      }).send();
+    }    catch (err) {
+      console.log('ERROR!!!!!!!!!!!!!!');
+      console.log(err);
+    }
     licitacion.sc = {
       address: contractDeployed.options.address,
       jsonInterface: JSON.stringify(contractDeployed.options.jsonInterface),
@@ -97,14 +89,21 @@ module.exports = {
 
     let fechas  = {};
 
-    fechas.fecha_inicio = Math.round(licitacion.fecha_inicio.getTime() / 1000);
-    fechas.fecha_fin = Math.round(licitacion.fecha_fin.getTime() / 1000);
-    fechas.fecha_mesa_adm = Math.round(licitacion.fecha_mesa_adm.getTime() / 1000);
-    fechas.fecha_mesa_subj = (Math.round(licitacion.fecha_mesa_subj.getTime() / 1000) || 0);
-    fechas.fecha_mesa_obj = Math.round(licitacion.fecha_mesa_obj.getTime() / 1000);
+    fechas.fecha_inicio =
+      Math.round(licitacion.fecha_inicio.getTime() / 1000);
+    fechas.fecha_fin =
+      Math.round(licitacion.fecha_fin.getTime() / 1000);
+    fechas.fecha_mesa_adm =
+      Math.round(licitacion.fecha_mesa_adm.getTime() / 1000);
+    fechas.fecha_mesa_subj =
+      (Math.round(licitacion.fecha_mesa_subj.getTime() / 1000) || 0);
+    fechas.fecha_mesa_obj =
+      Math.round(licitacion.fecha_mesa_obj.getTime() / 1000);
 
     console.log(fechas);
-    await contractDeployed.methods.setFechas(fechas.fecha_inicio, fechas.fecha_fin, fechas.fecha_mesa_adm, fechas.fecha_mesa_subj, fechas.fecha_mesa_obj).send();
+    await contractDeployed.methods.setFechas(fechas.fecha_inicio,
+      fechas.fecha_fin, fechas.fecha_mesa_adm, fechas.fecha_mesa_subj,
+      fechas.fecha_mesa_obj).send();
     return licitacion;
   },
 
@@ -125,18 +124,17 @@ module.exports = {
     let licitacionBl = null;
     let fechas = null;
     try {
-
-    licitacionBl = await contract.methods.licitacion().call();
-    fechas = await contract.methods.fechas().call();
-  } catch(err){
+      licitacionBl = await contract.methods.licitacion().call();
+      fechas = await contract.methods.fechas().call();
+    } catch (err) {
       console.log(err);
+      throw err;
     }
-    console.log(fechas);
-    licitacionBl.fecha_inicio = new Date(fechas.fecha_inicio*1000);
-    licitacionBl.fecha_fin = new Date(fechas.fecha_fin*1000);
-    licitacionBl.fecha_mesa_adm = new Date(fechas.fecha_mesa_adm*1000);
-    licitacionBl.fecha_mesa_subj = new Date(fechas.fecha_mesa_subj*1000);
-    licitacionBl.fecha_mesa_obj = new Date(fechas.fecha_mesa_subj*1000);
+    licitacionBl.fecha_inicio = new Date(fechas.fecha_inicio * 1000);
+    licitacionBl.fecha_fin = new Date(fechas.fecha_fin * 1000);
+    licitacionBl.fecha_mesa_adm = new Date(fechas.fecha_mesa_adm * 1000);
+    licitacionBl.fecha_mesa_subj = new Date(fechas.fecha_mesa_subj * 1000);
+    licitacionBl.fecha_mesa_obj = new Date(fechas.fecha_mesa_subj * 1000);
 
     licitacionBl.sc = {
       address: address,
@@ -153,14 +151,16 @@ module.exports = {
    * @return {Object}            XXXX
    */
   nuevaOferta: async function(address, jsonInterface, oferta) {
-    abi = JSON.parse(jsonInterface);
-    contract = new web3.eth.Contract(abi, address, {
+    let abi = JSON.parse(jsonInterface);
+    let contract = new web3.eth.Contract(abi, address, {
       from: acc.address,
       gasPrice: 0,
       gas: 1000000,
     });
-    await contract.methods.nuevaOferta(oferta.empresaHash, oferta.subjetivaHash, oferta.objetivaHash, oferta.objetivaCifrada).send();
-    var ofertaScId = await contract.methods.getOfertaID(oferta.empresaHash).call();
+    await contract.methods.nuevaOferta(oferta.empresaHash, oferta.subjetivaHash,
+      oferta.objetivaHash, oferta.objetivaCifrada).send();
+    let ofertaScId = await contract
+      .methods.getOfertaID(oferta.empresaHash).call();
     return ofertaScId;
   },
   /**
@@ -172,21 +172,75 @@ module.exports = {
    */
 
   getOferta: async function(address, jsonInterface, empresaHash) {
-    abi = JSON.parse(jsonInterface);
-    contract = new web3.eth.Contract(abi, address, {
+    let abi = JSON.parse(jsonInterface);
+    let contract = new web3.eth.Contract(abi, address, {
       from: acc.address,
       gasPrice: 0,
       gas: 1000000,
     });
-    var ofertaScId = await contract.methods.getOfertaID(empresaHash).call();
-    var oferta = await contract.methods.ofertas(ofertaScId).call();
+    let ofertaScId = await contract.methods.getOfertaID(empresaHash).call();
+    let oferta = await contract.methods.ofertas(ofertaScId).call();
     return oferta;
   },
 
+  /**
+   * Revela la identidad de la empresa
+   * @param  {String}            Address
+   * @param  {String}            JSONInterface
+   * @param  {String}            empresaHash
+   * @param  {String}            empresa
+   * @param  {String}            nonce
+   */
+  revelaEmpresa: async function(address, jsonInterface,
+  empresaHash, nonce, empresa) {
+  let abi = JSON.parse(jsonInterface);
+  let contract = new web3.eth.Contract(abi, address, {
+    from: acc.address,
+    gasPrice: 0,
+    gas: 1000000,
+  });
+  let ofertaScId = await contract.methods.getOfertaID(empresaHash).call();
+  await contract.methods.revelaEmpresa(ofertaScId, empresa, nonce).send();
+  return;
+},
+  /**
+   * Revela la oferta objetiva de la empresa
+   * @param  {String}            Address
+   * @param  {String}            JSONInterface
+   * @param  {String}            empresa
+   * @param  {String}            ofertaObjetiva
+   */
+  revelaOfertaObjetiva: async function(address, jsonInterface,
+    empresaHash, oferta) {
+    let abi = JSON.parse(jsonInterface);
+    let contract = new web3.eth.Contract(abi, address, {
+      from: acc.address,
+      gasPrice: 0,
+      gas: 1000000,
+    });
+    let ofertaScId = await contract.methods.getOfertaID(empresaHash).call();
+    await contract.methods.revelaOfertaObjetiva(ofertaScId, oferta).send();
+    return;
+  },
+
+  /**
+   * Valora la parte subjetiva de una empresa
+   * @param  {String}            Address
+   * @param  {String}            JSONInterface
+   * @param  {String}            empresa
+   * @param  {String}            ofertaObjetiva
+   */
+  valoraOfertaSubjetiva: async function(address, jsonInterface,
+    empresaHash, valor) {
+    let abi = JSON.parse(jsonInterface);
+    let contract = new web3.eth.Contract(abi, address, {
+      from: acc.address,
+      gasPrice: 0,
+      gas: 1000000,
+    });
+    let ofertaScId = await contract.methods.getOfertaID(empresaHash).call();
+    await contract.methods.valoraOfertaSubjetiva(ofertaScId, valor).send();
+    return;
+  },
 };
-
-
-
-
-
 

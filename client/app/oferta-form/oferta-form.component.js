@@ -3,6 +3,9 @@ function OfertaFormController($scope, $mdDialog, Oferta, $rootScope, licitacion,
   $scope.oferta = {};
   $scope.oferta.empresa = $rootScope.usuario.descripcion;
   $scope.licitacion = licitacion;
+  console.log(licitacion.criterios);
+  $scope.criterios = JSON.parse(`[${licitacion.criterios}]`);
+  console.log($scope.criterios);
   $scope.hide = function() {
     $mdDialog.hide();
   };
@@ -21,7 +24,7 @@ function OfertaFormController($scope, $mdDialog, Oferta, $rootScope, licitacion,
     var clave2 = await cryptoUtils.generateKey();
     var oferta_enc = {};
     oferta_enc.subjetivaCifrada = await cryptoUtils.encrypt(clave1.key, $scope.oferta.subjetiva);
-    oferta_enc.objetivaCifrada  = await cryptoUtils.encrypt(clave2.key, $scope.oferta.objetiva);
+    oferta_enc.objetivaCifrada  = await cryptoUtils.encrypt(clave2.key, JSON.stringify($scope.oferta.objetiva));
     oferta_enc.subjetivaHash = await cryptoUtils.sha256($scope.oferta.subjetiva);
 
     //TODO
@@ -46,15 +49,27 @@ function OfertaFormController($scope, $mdDialog, Oferta, $rootScope, licitacion,
         // or an element
         .closeTo(angular.element(document.querySelector('#right')))
     );
-
+    console.log($scope);
     Licitacion.oferta.create({id: $scope.licitacion.id}, oferta_enc)
       .$promise
       .then(function(results) {
+          console.log(results);
           $mdDialog.hide();
         },
-        function(err) {
-          $scope.status = err.statusText;
-        },
+        async function(err) {
+          console.log(err);
+          await $mdDialog.show(
+            $mdDialog.alert()
+              .clickOutsideToClose(true)
+              .title('Error al enviar la oferta')
+              .textContent(err.data.error.message)
+              .ok('Entendido')
+              // You can specify either sting with query selector
+              .openFrom('#left')
+              // or an element
+              .closeTo(angular.element(document.querySelector('#right')))
+          );
+        }
       );
 
   };

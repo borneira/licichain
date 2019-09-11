@@ -1,8 +1,8 @@
-<md-dialog aria-label="Nueva licitación" flex="80">
-  <form ng-cloak ng-submit="grabarNuevaOferta()">
+<md-dialog aria-label="Revelar Oferta" flex="80">
+  <form ng-cloak ng-submit="revelarClaveOferta()">
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Nueva oferta</h2>
+        <h2>Revelar oferta {{tipoOferta}}</h2>
         <span flex></span>
         <md-button layout-align="right" class="md-icon-button" ng-click="cancel()">
           <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
@@ -18,17 +18,12 @@
           </md-input-container>
         </md-content>
         <md-input-container class="md-block">
-          <label>Oferta a valorar subjetivamente</label>
-          <textarea ng-model="oferta.subjetiva"></textarea>
-        </md-input-container>
-        <label>Oferta a valorar objetivamente</label>
-        <md-input-container class="md-block" ng-repeat="criterio in criterios">
-        <label>{{criterio.nombre}}</label>
-          <input ng-model="oferta.objetiva[criterio.nombre]"></input>
+          <label>Clave oferta {{tipoOferta}}</label>
+          <textarea ng-model="oferta.clave"></textarea>
         </md-input-container>
         <div layout="row" flex="95">
           <md-button class="md-primary md-raised" type="Submit">
-            Grabar
+            Revelar
           </md-button>
         </div>
       </div>

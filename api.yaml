@@ -1,0 +1,1932 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: licichain
+basePath: /api
+paths:
+  '/licitaciones/{id}/smartContract':
+    get:
+      tags:
+        - licitacion
+      summary: Fetches hasOne relation smartContract.
+      operationId: licitacion.prototype.__get__smartContract
+      parameters:
+        - name: id
+          in: path
+          description: licitacion id
+          required: true
+          type: string
+          format: JSON
+        - name: refresh
+          in: query
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/smartContract'
+      deprecated: false
+    post:
+      tags:
+        - licitacion
+      summary: Creates a new instance in smartContract of this model.
+      operationId: licitacion.prototype.__create__smartContract
+      parameters:
+        - name: id
+          in: path
+          description: licitacion id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/smartContract'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/smartContract'
+      deprecated: false
+  '/licitaciones/{id}/administracion':
+    get:
+      tags:
+        - licitacion
+      summary: Fetches hasOne relation administracion.
+      operationId: licitacion.prototype.__get__administracion
+      parameters:
+        - name: id
+          in: path
+          description: licitacion id
+          required: true
+          type: string
+          format: JSON
+        - name: refresh
+          in: query
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/administracion'
+      deprecated: false
+    post:
+      tags:
+        - licitacion
+      summary: Creates a new instance in administracion of this model.
+      operationId: licitacion.prototype.__create__administracion
+      parameters:
+        - name: id
+          in: path
+          description: licitacion id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/administracion'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/administracion'
+      deprecated: false
+  '/licitaciones/{id}/oferta':
+    get:
+      tags:
+        - licitacion
+      summary: Queries oferta of licitacion.
+      operationId: licitacion.prototype.__get__oferta
+      parameters:
+        - name: id
+          in: path
+          description: licitacion id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/oferta'
+      deprecated: false
+    post:
+      tags:
+        - licitacion
+      summary: Creates a new instance in oferta of this model.
+      operationId: licitacion.prototype.__create__oferta
+      parameters:
+        - name: id
+          in: path
+          description: licitacion id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/oferta'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/oferta'
+      deprecated: false
+  '/licitaciones/{id}/oferta/count':
+    get:
+      tags:
+        - licitacion
+      summary: Counts oferta of licitacion.
+      operationId: licitacion.prototype.__count__oferta
+      parameters:
+        - name: id
+          in: path
+          description: licitacion id
+          required: true
+          type: string
+          format: JSON
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: double
+      deprecated: false
+  /licitaciones:
+    post:
+      tags:
+        - licitacion
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: licitacion.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/licitacion'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/licitacion'
+      deprecated: false
+    get:
+      tags:
+        - licitacion
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: licitacion.find
+      parameters:
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields, where, include, order, offset, and limit -
+            must be a JSON-encoded string (`{"where":{"something":"value"}}`).
+            See
+            https://loopback.io/doc/en/lb3/Querying-data.html#using-stringified-json-in-rest-queries
+            for more details.
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/licitacion'
+      deprecated: false
+  '/licitaciones/{id}':
+    get:
+      tags:
+        - licitacion
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: licitacion.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields and include - must be a JSON-encoded string
+            ({"something":"value"})
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/licitacion'
+      deprecated: false
+  /licitaciones/getDetail:
+    post:
+      tags:
+        - licitacion
+      summary: Retrieve licitacion's information from the Blockchain
+      operationId: licitacion.getDetail
+      parameters:
+        - name: licitacionId
+          in: formData
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              licitacion:
+                type: object
+      deprecated: false
+  /licitaciones/getOfertasBl:
+    post:
+      tags:
+        - licitacion
+      summary: Retrieve ofertas' information from the Blockchain
+      operationId: licitacion.getOfertasBl
+      parameters:
+        - name: licitacionId
+          in: formData
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              ofertas:
+                type: array
+                items:
+                  type: object
+      deprecated: false
+  /licitaciones/mesaAdministrativa:
+    post:
+      tags:
+        - licitacion
+      summary: 'Simulates the administrative meeting, revealing company'' identities'
+      operationId: licitacion.mesaAdministrativa
+      parameters:
+        - name: licitacionId
+          in: formData
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+      deprecated: false
+  /licitaciones/mesaASubjetiva:
+    post:
+      tags:
+        - licitacion
+      summary: >-
+        Simulates the subjective criteria evalution meeting and gives scores for
+        the offers
+      operationId: licitacion.mesaASubjetiva
+      parameters:
+        - name: licitacionId
+          in: formData
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+      deprecated: false
+  /licitaciones/mesaObjetiva:
+    post:
+      tags:
+        - licitacion
+      summary: >-
+        Simulates the objective criteria evalution meeting and gives scores for
+        the offers based on formulae
+      operationId: licitacion.mesaObjetiva
+      parameters:
+        - name: licitacionId
+          in: formData
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+      deprecated: false
+  /licitaciones/revelaOferta:
+    post:
+      tags:
+        - licitacion
+      summary: Reveals subjective offer to the administration
+      operationId: licitacion.revelaOferta
+      parameters:
+        - name: licitacionId
+          in: formData
+          required: false
+          type: string
+        - name: clave
+          in: formData
+          required: false
+          type: string
+        - name: tipoOferta
+          in: formData
+          required: false
+          type: string
+        - name: empresa
+          in: formData
+          required: false
+          type: string
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  '/empresas/{id}/ofertas':
+    get:
+      tags:
+        - empresa
+      summary: Queries ofertas of empresa.
+      operationId: empresa.prototype.__get__ofertas
+      parameters:
+        - name: id
+          in: path
+          description: empresa id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/oferta'
+      deprecated: false
+    post:
+      tags:
+        - empresa
+      summary: Creates a new instance in ofertas of this model.
+      operationId: empresa.prototype.__create__ofertas
+      parameters:
+        - name: id
+          in: path
+          description: empresa id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/oferta'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/oferta'
+      deprecated: false
+  '/empresas/{id}/ofertas/count':
+    get:
+      tags:
+        - empresa
+      summary: Counts ofertas of empresa.
+      operationId: empresa.prototype.__count__ofertas
+      parameters:
+        - name: id
+          in: path
+          description: empresa id
+          required: true
+          type: string
+          format: JSON
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: double
+      deprecated: false
+  '/empresas/{id}/usuarios':
+    get:
+      tags:
+        - empresa
+      summary: Queries usuarios of empresa.
+      operationId: empresa.prototype.__get__usuarios
+      parameters:
+        - name: id
+          in: path
+          description: empresa id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/usuario'
+      deprecated: false
+    post:
+      tags:
+        - empresa
+      summary: Creates a new instance in usuarios of this model.
+      operationId: empresa.prototype.__create__usuarios
+      parameters:
+        - name: id
+          in: path
+          description: empresa id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/usuario'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+  '/empresas/{id}/usuarios/count':
+    get:
+      tags:
+        - empresa
+      summary: Counts usuarios of empresa.
+      operationId: empresa.prototype.__count__usuarios
+      parameters:
+        - name: id
+          in: path
+          description: empresa id
+          required: true
+          type: string
+          format: JSON
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: double
+      deprecated: false
+  /empresas:
+    post:
+      tags:
+        - empresa
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: empresa.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/empresa'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/empresa'
+      deprecated: false
+    get:
+      tags:
+        - empresa
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: empresa.find
+      parameters:
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields, where, include, order, offset, and limit -
+            must be a JSON-encoded string (`{"where":{"something":"value"}}`).
+            See
+            https://loopback.io/doc/en/lb3/Querying-data.html#using-stringified-json-in-rest-queries
+            for more details.
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/empresa'
+      deprecated: false
+  '/empresas/{id}':
+    get:
+      tags:
+        - empresa
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: empresa.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields and include - must be a JSON-encoded string
+            ({"something":"value"})
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/empresa'
+      deprecated: false
+  '/ofertas/{id}/licitacion':
+    get:
+      tags:
+        - oferta
+      summary: Fetches belongsTo relation licitacion.
+      operationId: oferta.prototype.__get__licitacion
+      parameters:
+        - name: id
+          in: path
+          description: oferta id
+          required: true
+          type: string
+          format: JSON
+        - name: refresh
+          in: query
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/licitacion'
+      deprecated: false
+  '/ofertas/{id}/empresaOferente':
+    get:
+      tags:
+        - oferta
+      summary: Fetches hasOne relation empresaOferente.
+      operationId: oferta.prototype.__get__empresaOferente
+      parameters:
+        - name: id
+          in: path
+          description: oferta id
+          required: true
+          type: string
+          format: JSON
+        - name: refresh
+          in: query
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/empresa'
+      deprecated: false
+    post:
+      tags:
+        - oferta
+      summary: Creates a new instance in empresaOferente of this model.
+      operationId: oferta.prototype.__create__empresaOferente
+      parameters:
+        - name: id
+          in: path
+          description: oferta id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/empresa'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/empresa'
+      deprecated: false
+  /ofertas:
+    post:
+      tags:
+        - oferta
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: oferta.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/oferta'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/oferta'
+      deprecated: false
+    get:
+      tags:
+        - oferta
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: oferta.find
+      parameters:
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields, where, include, order, offset, and limit -
+            must be a JSON-encoded string (`{"where":{"something":"value"}}`).
+            See
+            https://loopback.io/doc/en/lb3/Querying-data.html#using-stringified-json-in-rest-queries
+            for more details.
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/oferta'
+      deprecated: false
+  '/ofertas/{id}':
+    get:
+      tags:
+        - oferta
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: oferta.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields and include - must be a JSON-encoded string
+            ({"something":"value"})
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/oferta'
+      deprecated: false
+  '/usuarios/{id}/accessTokens/{fk}':
+    get:
+      tags:
+        - usuario
+      summary: Find a related item by id for accessTokens.
+      operationId: usuario.prototype.__findById__accessTokens
+      parameters:
+        - name: id
+          in: path
+          description: usuario id
+          required: true
+          type: string
+          format: JSON
+        - name: fk
+          in: path
+          description: Foreign key for accessTokens
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/AccessToken'
+      deprecated: false
+    delete:
+      tags:
+        - usuario
+      summary: Delete a related item by id for accessTokens.
+      operationId: usuario.prototype.__destroyById__accessTokens
+      parameters:
+        - name: id
+          in: path
+          description: usuario id
+          required: true
+          type: string
+          format: JSON
+        - name: fk
+          in: path
+          description: Foreign key for accessTokens
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+    put:
+      tags:
+        - usuario
+      summary: Update a related item by id for accessTokens.
+      operationId: usuario.prototype.__updateById__accessTokens
+      parameters:
+        - name: id
+          in: path
+          description: usuario id
+          required: true
+          type: string
+          format: JSON
+        - name: fk
+          in: path
+          description: Foreign key for accessTokens
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/AccessToken'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/AccessToken'
+      deprecated: false
+  '/usuarios/{id}/accessTokens':
+    get:
+      tags:
+        - usuario
+      summary: Queries accessTokens of usuario.
+      operationId: usuario.prototype.__get__accessTokens
+      parameters:
+        - name: id
+          in: path
+          description: usuario id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AccessToken'
+      deprecated: false
+    post:
+      tags:
+        - usuario
+      summary: Creates a new instance in accessTokens of this model.
+      operationId: usuario.prototype.__create__accessTokens
+      parameters:
+        - name: id
+          in: path
+          description: usuario id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/AccessToken'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/AccessToken'
+      deprecated: false
+    delete:
+      tags:
+        - usuario
+      summary: Deletes all accessTokens of this model.
+      operationId: usuario.prototype.__delete__accessTokens
+      parameters:
+        - name: id
+          in: path
+          description: usuario id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  '/usuarios/{id}/accessTokens/count':
+    get:
+      tags:
+        - usuario
+      summary: Counts accessTokens of usuario.
+      operationId: usuario.prototype.__count__accessTokens
+      parameters:
+        - name: id
+          in: path
+          description: usuario id
+          required: true
+          type: string
+          format: JSON
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: double
+      deprecated: false
+  /usuarios:
+    post:
+      tags:
+        - usuario
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: usuario.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/usuario'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+    patch:
+      tags:
+        - usuario
+      summary: >-
+        Patch an existing model instance or insert a new one into the data
+        source.
+      operationId: usuario.patchOrCreate
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/usuario'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+    put:
+      tags:
+        - usuario
+      summary: >-
+        Replace an existing model instance or insert a new one into the data
+        source.
+      operationId: usuario.replaceOrCreate__put_usuarios
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/usuario'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+    get:
+      tags:
+        - usuario
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: usuario.find
+      parameters:
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields, where, include, order, offset, and limit -
+            must be a JSON-encoded string (`{"where":{"something":"value"}}`).
+            See
+            https://loopback.io/doc/en/lb3/Querying-data.html#using-stringified-json-in-rest-queries
+            for more details.
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/usuario'
+      deprecated: false
+  /usuarios/replaceOrCreate:
+    post:
+      tags:
+        - usuario
+      summary: >-
+        Replace an existing model instance or insert a new one into the data
+        source.
+      operationId: usuario.replaceOrCreate__post_usuarios_replaceOrCreate
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/usuario'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+  /usuarios/upsertWithWhere:
+    post:
+      tags:
+        - usuario
+      summary: >-
+        Update an existing model instance or insert a new one into the data
+        source based on the where criteria.
+      operationId: usuario.upsertWithWhere
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: An object of model property name/value pairs
+          required: false
+          schema:
+            description: An object of model property name/value pairs
+            $ref: '#/definitions/usuario'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+  '/usuarios/{id}/exists':
+    get:
+      tags:
+        - usuario
+      summary: Check whether a model instance exists in the data source.
+      operationId: 'usuario.exists__get_usuarios_{id}_exists'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              exists:
+                type: boolean
+      deprecated: false
+  '/usuarios/{id}':
+    head:
+      tags:
+        - usuario
+      summary: Check whether a model instance exists in the data source.
+      operationId: 'usuario.exists__head_usuarios_{id}'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              exists:
+                type: boolean
+      deprecated: false
+    get:
+      tags:
+        - usuario
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: usuario.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields and include - must be a JSON-encoded string
+            ({"something":"value"})
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+    put:
+      tags:
+        - usuario
+      summary: >-
+        Replace attributes for a model instance and persist it into the data
+        source.
+      operationId: 'usuario.replaceById__put_usuarios_{id}'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/usuario'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+    delete:
+      tags:
+        - usuario
+      summary: 'Delete a model instance by {{id}} from the data source.'
+      operationId: usuario.deleteById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+    patch:
+      tags:
+        - usuario
+      summary: >-
+        Patch attributes for a model instance and persist it into the data
+        source.
+      operationId: usuario.prototype.patchAttributes
+      parameters:
+        - name: id
+          in: path
+          description: usuario id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: An object of model property name/value pairs
+          required: false
+          schema:
+            description: An object of model property name/value pairs
+            $ref: '#/definitions/usuario'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+  '/usuarios/{id}/replace':
+    post:
+      tags:
+        - usuario
+      summary: >-
+        Replace attributes for a model instance and persist it into the data
+        source.
+      operationId: 'usuario.replaceById__post_usuarios_{id}_replace'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/usuario'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+  /usuarios/findOne:
+    get:
+      tags:
+        - usuario
+      summary: Find first instance of the model matched by filter from the data source.
+      operationId: usuario.findOne
+      parameters:
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields, where, include, order, offset, and limit -
+            must be a JSON-encoded string (`{"where":{"something":"value"}}`).
+            See
+            https://loopback.io/doc/en/lb3/Querying-data.html#using-stringified-json-in-rest-queries
+            for more details.
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+  /usuarios/update:
+    post:
+      tags:
+        - usuario
+      summary: 'Update instances of the model matched by {{where}} from the data source.'
+      operationId: usuario.updateAll
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: An object of model property name/value pairs
+          required: false
+          schema:
+            description: An object of model property name/value pairs
+            $ref: '#/definitions/usuario'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            description: Information related to the outcome of the operation
+            type: object
+            properties:
+              count:
+                description: The number of instances updated
+                type: number
+                format: double
+      deprecated: false
+  /usuarios/count:
+    get:
+      tags:
+        - usuario
+      summary: Count instances of the model matched by where from the data source.
+      operationId: usuario.count
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: double
+      deprecated: false
+  /usuarios/login:
+    post:
+      tags:
+        - usuario
+      summary: Login a user with username/email and password.
+      operationId: usuario.login
+      parameters:
+        - name: credentials
+          in: body
+          required: true
+          schema:
+            type: object
+        - name: include
+          in: query
+          description: >-
+            Related objects to include in the response. See the description of
+            return value for more details.
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            description: >+
+              The response body contains properties of the AccessToken created
+              on login.
+
+              Depending on the value of `include` parameter, the body may
+              contain additional properties:
+
+                - `user` - `U+007BUserU+007D` - Data of the currently logged in user. (`include=user`)
+
+            type: object
+      deprecated: false
+  /usuarios/logout:
+    post:
+      tags:
+        - usuario
+      summary: Logout a user with access token.
+      operationId: usuario.logout
+      parameters: []
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  '/usuarios/{id}/verify':
+    post:
+      tags:
+        - usuario
+      summary: Trigger user's identity verification with configured verifyOptions
+      operationId: usuario.prototype.verify
+      parameters:
+        - name: id
+          in: path
+          description: usuario id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  /usuarios/confirm:
+    get:
+      tags:
+        - usuario
+      summary: Confirm a user registration with identity verification token.
+      operationId: usuario.confirm
+      parameters:
+        - name: uid
+          in: query
+          required: true
+          type: string
+        - name: token
+          in: query
+          required: true
+          type: string
+        - name: redirect
+          in: query
+          required: false
+          type: string
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  /usuarios/reset:
+    post:
+      tags:
+        - usuario
+      summary: Reset password for a user with email.
+      operationId: usuario.resetPassword
+      parameters:
+        - name: options
+          in: body
+          required: true
+          schema:
+            type: object
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  /usuarios/change-password:
+    post:
+      tags:
+        - usuario
+      summary: Change a user's password.
+      operationId: usuario.changePassword
+      parameters:
+        - name: oldPassword
+          in: formData
+          required: true
+          type: string
+        - name: newPassword
+          in: formData
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  /usuarios/reset-password:
+    post:
+      tags:
+        - usuario
+      summary: Reset user's password via a password-reset token.
+      operationId: usuario.setPassword
+      parameters:
+        - name: newPassword
+          in: formData
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  /smartContracts:
+    post:
+      tags:
+        - smartContract
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: smartContract.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/smartContract'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/smartContract'
+      deprecated: false
+    get:
+      tags:
+        - smartContract
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: smartContract.find
+      parameters:
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields, where, include, order, offset, and limit -
+            must be a JSON-encoded string (`{"where":{"something":"value"}}`).
+            See
+            https://loopback.io/doc/en/lb3/Querying-data.html#using-stringified-json-in-rest-queries
+            for more details.
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/smartContract'
+      deprecated: false
+  '/smartContracts/{id}':
+    get:
+      tags:
+        - smartContract
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: smartContract.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields and include - must be a JSON-encoded string
+            ({"something":"value"})
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/smartContract'
+      deprecated: false
+  '/administraciones/{id}/usuarios':
+    get:
+      tags:
+        - administracion
+      summary: Queries usuarios of administracion.
+      operationId: administracion.prototype.__get__usuarios
+      parameters:
+        - name: id
+          in: path
+          description: administracion id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/usuario'
+      deprecated: false
+    post:
+      tags:
+        - administracion
+      summary: Creates a new instance in usuarios of this model.
+      operationId: administracion.prototype.__create__usuarios
+      parameters:
+        - name: id
+          in: path
+          description: administracion id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/usuario'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/usuario'
+      deprecated: false
+    delete:
+      tags:
+        - administracion
+      summary: Deletes all usuarios of this model.
+      operationId: administracion.prototype.__delete__usuarios
+      parameters:
+        - name: id
+          in: path
+          description: administracion id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  '/administraciones/{id}/usuarios/count':
+    get:
+      tags:
+        - administracion
+      summary: Counts usuarios of administracion.
+      operationId: administracion.prototype.__count__usuarios
+      parameters:
+        - name: id
+          in: path
+          description: administracion id
+          required: true
+          type: string
+          format: JSON
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: double
+      deprecated: false
+  '/administraciones/{id}/licitaciones':
+    get:
+      tags:
+        - administracion
+      summary: Queries licitaciones of administracion.
+      operationId: administracion.prototype.__get__licitaciones
+      parameters:
+        - name: id
+          in: path
+          description: administracion id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/licitacion'
+      deprecated: false
+  '/administraciones/{id}/licitaciones/count':
+    get:
+      tags:
+        - administracion
+      summary: Counts licitaciones of administracion.
+      operationId: administracion.prototype.__count__licitaciones
+      parameters:
+        - name: id
+          in: path
+          description: administracion id
+          required: true
+          type: string
+          format: JSON
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: double
+      deprecated: false
+  /administraciones:
+    post:
+      tags:
+        - administracion
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: administracion.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/administracion'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/administracion'
+      deprecated: false
+    get:
+      tags:
+        - administracion
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: administracion.find
+      parameters:
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields, where, include, order, offset, and limit -
+            must be a JSON-encoded string (`{"where":{"something":"value"}}`).
+            See
+            https://loopback.io/doc/en/lb3/Querying-data.html#using-stringified-json-in-rest-queries
+            for more details.
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/administracion'
+      deprecated: false
+  '/administraciones/{id}':
+    get:
+      tags:
+        - administracion
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: administracion.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: >-
+            Filter defining fields and include - must be a JSON-encoded string
+            ({"something":"value"})
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/administracion'
+      deprecated: false
+tags:
+  - name: licitacion
+  - name: empresa
+  - name: oferta
+  - name: usuario
+  - name: smartContract
+  - name: administracion
+consumes:
+  - application/json
+  - application/x-www-form-urlencoded
+  - application/xml
+  - text/xml
+produces:
+  - application/json
+  - application/xml
+  - text/xml
+  - application/javascript
+  - text/javascript
+definitions:
+  oferta:
+    properties:
+      ofertaScId:
+        type: number
+        format: double
+      empresa:
+        type: string
+      nonce:
+        type: string
+      empresaHash:
+        type: string
+      subjetiva:
+        type: string
+      subjetivaCifrada:
+        type: string
+      objetiva:
+        type: string
+      objetivaCifrada:
+        type: string
+      subjetivaHash:
+        type: string
+      objetivaHash:
+        type: string
+      id:
+        $ref: '#/definitions/ObjectID'
+      licitacionId:
+        $ref: '#/definitions/ObjectID'
+      empresaId:
+        $ref: '#/definitions/ObjectID'
+    additionalProperties: false
+  smartContract:
+    properties:
+      address:
+        type: string
+      interface:
+        type: string
+      id:
+        $ref: '#/definitions/ObjectID'
+      licitacionId:
+        $ref: '#/definitions/ObjectID'
+    required:
+      - address
+      - interface
+    additionalProperties: false
+  administracion:
+    properties:
+      nombre:
+        type: string
+      id:
+        $ref: '#/definitions/ObjectID'
+      licitacionId:
+        $ref: '#/definitions/ObjectID'
+    required:
+      - nombre
+    additionalProperties: false
+  licitacion:
+    properties:
+      objeto:
+        type: string
+      CPV:
+        type: string
+      fecha_inicio:
+        type: string
+        format: date-time
+      fecha_fin:
+        type: string
+        format: date-time
+      fecha_mesa_adm:
+        type: string
+        format: date-time
+      fecha_mesa_subj:
+        type: string
+        format: date-time
+      fecha_mesa_obj:
+        type: string
+        format: date-time
+      org_contratacion:
+        type: string
+      importe_max:
+        type: number
+        format: double
+      importe_adj:
+        type: number
+        format: double
+      ppt:
+        type: string
+      pca:
+        type: string
+      criterios:
+        type: string
+      PPTHash:
+        type: string
+      PCAHash:
+        type: string
+      sc:
+        type: object
+      empresaAdjudicataria:
+        type: string
+      inconsistencias:
+        type: array
+        items:
+          $ref: '#/definitions/x-any'
+      id:
+        $ref: '#/definitions/ObjectID'
+      administracionId:
+        $ref: '#/definitions/ObjectID'
+    required:
+      - objeto
+      - fecha_inicio
+      - fecha_fin
+      - fecha_mesa_adm
+      - fecha_mesa_obj
+      - org_contratacion
+      - importe_max
+      - ppt
+      - pca
+      - criterios
+    additionalProperties: false
+  usuario:
+    properties:
+      descripcion:
+        type: string
+      tipo:
+        type: string
+      clave:
+        type: string
+      realm:
+        type: string
+      username:
+        type: string
+      email:
+        type: string
+      emailVerified:
+        type: boolean
+      id:
+        $ref: '#/definitions/ObjectID'
+      empresaId:
+        $ref: '#/definitions/ObjectID'
+      administracionId:
+        $ref: '#/definitions/ObjectID'
+    required:
+      - descripcion
+      - tipo
+      - email
+    additionalProperties: false
+  empresa:
+    properties:
+      nombre:
+        type: string
+      id:
+        $ref: '#/definitions/ObjectID'
+      ofertaId:
+        $ref: '#/definitions/ObjectID'
+    required:
+      - nombre
+    additionalProperties: false
+  AccessToken:
+    properties:
+      id:
+        type: string
+      ttl:
+        default: 1209600
+        description: time to live in seconds (2 weeks by default)
+        type: number
+        format: double
+      scopes:
+        description: Array of scopes granted to this access token.
+        type: array
+        items:
+          type: string
+      created:
+        type: string
+        format: date-time
+      userId:
+        $ref: '#/definitions/ObjectID'
+    required:
+      - id
+    additionalProperties: false

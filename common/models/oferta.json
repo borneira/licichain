@@ -36,6 +36,12 @@
     },
     "objetivaHash": {
       "type": "string"
+    },
+    "valoracionSubjetiva": {
+      "type": "number"
+    },
+    "valoracionObjetiva": {
+      "type": "number"
     }
   },
   "validations": [],
@@ -45,7 +51,15 @@
       "model": "licitacion",
       "foreignKey": "licitacionId",
       "options": {
-        "nestRemoting": true
+        "nestRemoting": false
+      }
+    },
+    "empresaOferente": {
+      "type": "hasOne",
+      "model": "empresa",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": false
       }
     }
   },

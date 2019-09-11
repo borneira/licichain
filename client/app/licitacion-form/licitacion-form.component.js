@@ -3,6 +3,7 @@ $scope.licitaciones=[];
 $scope.status= '';
 $scope.licitacion={};
 $scope.licitacion.org_contratacion = $rootScope.usuario.descripcion;
+$scope.licitacion.criterios = [];
   function getLicitaciones() {
     Licitacion
       .find()
@@ -36,6 +37,17 @@ $scope.licitacion.org_contratacion = $rootScope.usuario.descripcion;
           $scope.status=err.statusText;
         }
       );
+  };
+  $scope.addCriterio = function(licitacion) {
+    $mdDialog.show({
+      controller: CriterioFormController,
+      templateUrl: 'licitacion-form/criterios/criterio-form.template.html',
+      parent: angular.element(document.body),
+      clickOutsideToClose: true,
+      multiple: true,
+      controllerAs: 'ctrl',
+      locals: {licitacion: licitacion}
+    })
   };
   getLicitaciones();
 };

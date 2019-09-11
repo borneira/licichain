@@ -1,13 +1,16 @@
-function OfertaListController($scope, Oferta, $mdDialog) {
+function OfertaListController($scope, Oferta, $mdDialog, Licitacion) {
   $scope.ofertas = [];
   $scope.ofertaError="";
-  $scope.status="";
+//  let licitacionId = $scope.$parent.licitacion.id;
+  $scope.$parent.getOfertas = getOfertas;
   function getOfertas() {
-    Oferta
-      .find()
+    let licitacion = $scope.$parent.licitacion;
+    console.log(licitacion);
+    Licitacion.getOfertasBl('licitacionId=' + licitacion.id)
       .$promise
       .then(function(results) {
-          $scope.ofertas = results;
+          $scope.ofertas = results.ofertas;
+          console.log(results.ofertas);
         },
         function(err) {
           $scope.ofertaError = err.statusText;
@@ -30,7 +33,7 @@ function OfertaListController($scope, Oferta, $mdDialog) {
         $scope.status = 'You cancelled the dialog.';
       });
   };
-  getOfertas();
+ // getOfertas();
 }
 
 

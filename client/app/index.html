@@ -1,11 +1,11 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" ng-app="licichainApp">
 <head>
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta charset="UTF-8">
   <link href="lib/angular-material/angular-material.css" rel="stylesheet">
   <link href="lib/angular-material-data-table/dist/md-data-table.css" rel="stylesheet">
-  <link href="css/index.css" rel="stylesheet">
+  <link href="app.css" rel="stylesheet">
   <title>Pruebas de Licichain</title>
   <script src="lib/angular/angular.js"></script>
   <script src="lib/angular-resource/angular-resource.js"></script>
@@ -14,6 +14,7 @@
   <script src="lib/angular-aria/angular-aria.js"></script>
   <script src="lib/angular-messages/angular-messages.js"></script>
   <script src="lib/angular-material-data-table/dist/md-data-table.js"></script>
+  <script src="lib/angular-sanitize/angular-sanitize.js"></script>
   <script src="js/lb-services.js"></script>
   <script src="app.module.js"></script>
   <script src="licitacion-list/licitacion-list.component.js"></script>
@@ -25,45 +26,79 @@
   <script src="empresa-list/empresa-list.component.js"></script>
   <script src="empresa-list/empresa-list.module.js"></script>
   <script src="licitacion-form/licitacion-nueva.controller.js"></script>
+  <script src="licitacion-form/criterios/criterio-form.controller.js"></script>
   <script src="licitacion-detail/licitacion-detail.controller.js"></script>
+  <script src="login/login.controller.js"></script>
+  <script src="oferta-form/oferta-form.component.js"></script>
+  <script src="oferta-form/oferta-nueva.controller.js"></script>
+  <script src="oferta-list/oferta-list.component.js"></script>
+  <script src="oferta-list/oferta-list.module.js"></script>
+  <script src="oferta-list/oferta-list.controller.js"></script>
+  <script src="mesa-administrativa/mesa-administrativa.controller.js"></script>
+  <script src="mesa-subjetiva/mesa-subjetiva.component.js"></script>
+  <script src="mesa-subjetiva/mesa-subjetiva.controller.js"></script>
+  <script src="mesa-subjetiva/valoracion/mesa-subjetiva-valoracion.controller.js"></script>
+  <script src="mesa-objetiva/mesa-objetiva.component.js"></script>
+  <script src="mesa-objetiva/mesa-objetiva.controller.js"></script>
+  <script src="revelar-oferta/revelar-oferta.component.js"></script>
+  <script src="revelar-oferta/revelar-oferta.controller.js"></script>
+  <script src="lib/bip39-es.js"></script>
+  <script src="js/crypto-utils.js"></script>
 </head>
-<body ng-app="licichainApp">
 
-  <div id="signup">
-    <div class="signup-screen">
-      <div class="space-bot text-center">
-        <h1>Sign up</h1>
-        <div class="divider"></div>
-      </div>
-      <form class="form-register" method="post" name="register" novalidate>
-        <div class="input-field col s6">
-          <input id="first-name" type="text" class="validate" required>
-          <label for="first-name">First Name</label>
-        </div>
-        <div class="input-field col s6">
-          <input id="last-name" type="text" class="validate" required>
-          <label for="last-name">Last Name</label>
-        </div>
-        <div class="input-field col s6">
-          <input id="email" type="email" name="email" ng-model="email" class="validate" required>
-          <label for="email">Email</label>
-        </div>
-        <p class="alert alert-danger" ng-show="form-register.email.$error.email">Your email is invalid.</p>
-        <div class="input-field col s6">
-          <input id="password" type="password" name="password" ng-model="password" ng-minlength='6' class="validate" required>
-          <label for="password">Password</label>
-        </div>
-        <p class="alert alert-danger" ng-show="form-register.password.$error.minlength || form.password.$invalid">Your password must be at least 6 characters.</p>
-        <div class="space-top text-center">
-          <button ng-disabled="form-register.$invalid" class="waves-effect waves-light btn done">
-            <i class="material-icons left">done</i> Done
-          </button>
-          <button type="button" class="waves-effect waves-light btn cancel">
-            <i class="material-icons left">clear</i>Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+<body layout="column" ng-app="licichainApp" ng-controller="loginController">
+<md-content>
+<md-toolbar  class="md-hue-2">
+  <div ng-show="!isAuthenticated && !waitforUser" class="md-toolbar-tools">
+    <h2 flex md-truncate>Licichan - Licitación electrónica sobre blockchain</h2>
+      <label style="margin: 10px"><h2>Usuario</h2></label>
+      <input ng-model="usuario.username" size="10">
+
+      <label style="margin: 10px">Password</label>
+      <input ng-model="usuario.password" type="password" size="10" ng-keyup="$event.keyCode == 13 && login()">
+
+    <md-button  ng-click="login()" class="md-button">
+      Login
+    </md-button>
   </div>
+
+  </div>
+  <div ng-show="isAuthenticated==true && !waitforUser" class="md-toolbar-tools">
+    <h2 flex md-truncate>Licichan - Licitación electrónica sobre blockchain</h2>
+    <label>{{usuario.descripcion}}</label>
+    <md-button  ng-click="logout()" class="md-button">
+      Logout
+    </md-button>
+  </div>
+</md-toolbar>
+</md-content>
+<div class="md-container" flex layout="row">
+  <md-sidenav class="md-whiteframe-4dp" md-is-locked-open="true">
+    <md-list>
+      <md-list-item>
+        <md-button>
+          <md-icon class="md-avatar" md-svg-src="svg/meeting.svg"></md-icon>
+          Licitaciones
+        </md-button>
+      </md-list-item>
+      <md-list-item>
+        <md-button>
+          <md-icon class="md-avatar" md-svg-src="svg/manager.svg"></md-icon>
+          Empresas
+        </md-button>
+      </md-list-item>
+    </md-list>
+  </md-sidenav>
+  <md-content class="md-whiteframe-5dp" flex id="content">
+    <div ng-show="isAAPP==true" class="md-padding dialogNuevaLicitacion" id="popupContainer" ng-cloak>
+      <div ng-controller="NuevaLicitacionController"  class="dialogNuevaLicitacion-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+    <md-button class="md-primary md-raised" ng-click="showNuevaLicitacion($event)">
+      Nueva licitación
+    </md-button>
+      </div>
+    </div>
+    <licitacion-list></licitacion-list>
+  </md-content>
+</div>
 </body>
 </html>
