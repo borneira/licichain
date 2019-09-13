@@ -66,6 +66,8 @@ async function consultBlockchain(licitacionBbdd) {
 async function getOfertaBl(ofertaBbdd, licitacion) {
   let ofertaBl = await licitacionSC.getOferta(licitacion.sc.address,
     licitacion.sc.jsonInterface, ofertaBbdd.empresaHash);
+  console.log(ofertaBbdd);
+  console.log(ofertaBl);
   return ofertaBl;
 };
 
@@ -79,7 +81,7 @@ module.exports = function(Licitacion) {
   Licitacion.getOfertasBl = async function(licitacionId) {
     let licitacionBbdd =
       await Licitacion.findById(licitacionId, {include: 'oferta'});
-    let ofertasBbdd = licitacionBbdd.oferta();
+    let ofertasBbdd = await licitacionBbdd.oferta();
     let ofertasBl = [];
     for (let ofertaBbdd of ofertasBbdd) {
       ofertasBl.push(await getOfertaBl(ofertaBbdd, licitacionBbdd));
@@ -93,11 +95,12 @@ module.exports = function(Licitacion) {
       await Licitacion.findById(licitacionId, {include: 'oferta'});
     let ofertas = await licitacionBbdd.oferta();
     for (let oferta of ofertas) {
+      console.log(oferta);
       await licitacionSC.revelaEmpresa(licitacionBbdd.sc.address,
         licitacionBbdd.sc.jsonInterface, oferta.empresaHash, oferta.nonce,
         oferta.empresa);
     }
-    return 'No implemtentado';
+    return 'No OK';
   };
 
   Licitacion.mesaSubjetiva = async function(licitacionId, ofertasValoradas) {
@@ -122,7 +125,20 @@ module.exports = function(Licitacion) {
   };
 
   Licitacion.mesaObjetiva = async function(licitacionId) {
-// TODO Implementar
+    let licitacionBbdd =
+      await Licitacion.findById(licitacionId, {include: 'oferta'});
+    let criterios = JSON.parse(licitacionBbdd.criterios);
+    for (let criterio of criterios) {
+      if (criterio.formula === 'importe') {
+        console.log('importe');
+      }
+      if (criterio.formula === 'relativa') {
+        console.log('relativa');
+      }
+      if (criterio.formula === 'absluta')
+        console.log('absoluta');
+    }
+
     return 'No implemtentado';
   };
 

@@ -30,7 +30,7 @@ function OfertaFormController($scope, $mdDialog, Oferta, $rootScope, licitacion,
     //TODO
     // Se debe utilizar un nonce para evitar que se pueda averiguar la oferta objetiva por ataque con diccionario
     // El nonce debe guardarlo la empresa junto con las claves
-    oferta_enc.objetivaHash  = await cryptoUtils.sha256($scope.oferta.objetiva);
+    oferta_enc.objetivaHash  = await cryptoUtils.sha256(JSON.stringify($scope.oferta.objetiva));
     oferta_enc.empresa = $scope.oferta.empresa;
     console.log(oferta_enc);
 

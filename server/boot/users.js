@@ -13,7 +13,21 @@ module.exports = function(app) {
           email: 'juan@borneira.com',
           password: 'Passw0rd',
           descripcion: 'Borneira, S.A.',
-          tipo: 'EMPRESA'
+          tipo: 'EMPRESA',
+        },
+        {
+          username: 'acme',
+          email: 'adm@acme.com',
+          password: 'Passw0rd',
+          descripcion: 'ACME, S.A.',
+          tipo: 'EMPRESA',
+        },
+        {
+          username: 'contoso',
+          email: 'adm@contoso.com',
+          password: 'Passw0rd',
+          descripcion: 'Contoso, S.A.',
+          tipo: 'EMPRESA',
         },
         {
           username: 'aytovigo',
@@ -36,7 +50,7 @@ module.exports = function(app) {
 
           role.principals.create({
             principalType: RoleMapping.USER,
-            principalId: users[1].id,
+            principalId: users[3].id,
           }, function(err, principal) {
             if (err) throw err;
 
@@ -53,6 +67,20 @@ module.exports = function(app) {
           role.principals.create({
             principalType: RoleMapping.USER,
             principalId: users[0].id,
+          }, function(err, principal) {
+            if (err) throw err;
+            console.log('Created principal:', principal);
+          });
+          role.principals.create({
+            principalType: RoleMapping.USER,
+            principalId: users[1].id,
+          }, function(err, principal) {
+            if (err) throw err;
+            console.log('Created principal:', principal);
+          });
+          role.principals.create({
+            principalType: RoleMapping.USER,
+            principalId: users[2].id,
           }, function(err, principal) {
             if (err) throw err;
             console.log('Created principal:', principal);

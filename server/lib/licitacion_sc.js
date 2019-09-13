@@ -199,8 +199,8 @@ module.exports = {
     gasPrice: 0,
     gas: 1000000,
   });
-  let ofertaScId = await contract.methods.getOfertaID(empresaHash).call();
-  await contract.methods.revelaEmpresa(ofertaScId, empresa, nonce).send();
+  //let ofertaScId = await contract.methods.getOfertaID(empresaHash).call();
+  await contract.methods.revelaEmpresa(empresaHash, empresa, nonce).send();
   return;
 },
   /**
