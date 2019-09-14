@@ -302,7 +302,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
               }
-
             },
 
             /**
@@ -457,7 +456,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
              *
              * Data properties:
              *
-             *  - `result` – `{string=}` -
+             *  - `ofertas` – `{*=}` -
              */
             "mesaObjetiva": {
               url: urlBase + "/licitaciones/mesaObjetiva",

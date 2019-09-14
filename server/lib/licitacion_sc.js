@@ -42,7 +42,7 @@ module.exports = {
 
     // TODO: Controlar errores de compilación
     const contractJSON = JSON.parse(solc.compile(JSON.stringify(input)));
-    console.log(contractJSON);
+    //console.log(contractJSON);
     const abi = contractJSON.contracts['licitacion.sol']['Bid'].abi;
 
     // La salida siguiente se puede cargar en la consola de Quorum Maker como ABI
@@ -100,7 +100,6 @@ module.exports = {
     fechas.fecha_mesa_obj =
       Math.round(licitacion.fecha_mesa_obj.getTime() / 1000);
 
-    console.log(fechas);
     await contractDeployed.methods.setFechas(fechas.fecha_inicio,
       fechas.fecha_fin, fechas.fecha_mesa_adm, fechas.fecha_mesa_subj,
       fechas.fecha_mesa_obj).send();
@@ -199,7 +198,6 @@ module.exports = {
     gasPrice: 0,
     gas: 1000000,
   });
-  //let ofertaScId = await contract.methods.getOfertaID(empresaHash).call();
   await contract.methods.revelaEmpresa(empresaHash, empresa, nonce).send();
   return;
 },
@@ -218,8 +216,7 @@ module.exports = {
       gasPrice: 0,
       gas: 1000000,
     });
-    let ofertaScId = await contract.methods.getOfertaID(empresaHash).call();
-    await contract.methods.revelaOfertaObjetiva(ofertaScId, oferta).send();
+    await contract.methods.revelaOfertaObjetiva(empresaHash, oferta).send();
     return;
   },
 
@@ -228,7 +225,7 @@ module.exports = {
    * @param  {String}            Address
    * @param  {String}            JSONInterface
    * @param  {String}            empresa
-   * @param  {String}            ofertaObjetiva
+   * @param  {String}            ofertaSubjetiva
    */
   valoraOfertaSubjetiva: async function(address, jsonInterface,
     empresaHash, valor) {
@@ -238,8 +235,25 @@ module.exports = {
       gasPrice: 0,
       gas: 1000000,
     });
-    let ofertaScId = await contract.methods.getOfertaID(empresaHash).call();
-    await contract.methods.valoraOfertaSubjetiva(ofertaScId, valor).send();
+    await contract.methods.valoraOfertaSubjetiva(empresaHash, valor).send();
+    return;
+  },
+  /**
+   * Valora la parte objetiva de una empresa
+   * @param  {String}            Address
+   * @param  {String}            JSONInterface
+   * @param  {String}            empresa
+   * @param  {String}            ofertaObjetiva
+   */
+  valoraOfertaObjetiva: async function(address, jsonInterface,
+    empresaHash, valor) {
+    let abi = JSON.parse(jsonInterface);
+    let contract = new web3.eth.Contract(abi, address, {
+      from: acc.address,
+      gasPrice: 0,
+      gas: 1000000,
+    });
+    await contract.methods.valoraOfertaObjetiva(empresaHash, valor).send();
     return;
   },
 };

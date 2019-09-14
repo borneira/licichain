@@ -41,7 +41,7 @@
       "type": "number"
     },
     "valoracionObjetiva": {
-      "type": "number"
+      "type": "object"
     }
   },
   "validations": [],

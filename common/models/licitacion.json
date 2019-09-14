@@ -247,8 +247,8 @@
         "type": "string"
       },
       "returns": {
-        "arg": "result",
-        "type": "string"
+        "arg": "ofertas",
+        "type": "array"
       }
     },
     "revelaOferta": {

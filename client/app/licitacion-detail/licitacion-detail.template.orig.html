@@ -1,0 +1,136 @@
+<md-dialog aria-label="Detalle licitación" flex="80">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Detalle licitación</h2>
+      <span flex></span>
+      <md-button layout-align="right" class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div  class="md-padding dialogNuevaOferta" id="popupContainer" ng-cloak layout="row" flex>
+      <div ng-show="$root.isEMPRESA==true" ng-controller="NuevaOfertaController"  class="dialogNuevaOferta-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+        <md-button class="md-primary md-raised my-button" ng-click="showNuevaOferta(licitacion)" min-width=200px>
+          Presentar oferta
+        </md-button>
+      </div>
+      <div ng-show="$root.isEMPRESA==true" ng-controller="RevelarOfertaController"  class="dialogNuevaOferta-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+      <md-button class="md-primary md-raised my-button" ng-click="revelarOferta(licitacion, 'subjetiva')" min-width=200px>
+        Revelar oferta subjetiva
+      </md-button>
+    </div>
+      <div ng-show="$root.isEMPRESA==true" ng-controller="RevelarOfertaController"  class="dialogNuevaOferta-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+        <md-button class="md-primary md-raised my-button" ng-click="revelarOferta(licitacion, 'objetiva')" min-width=200px>
+          Revelar oferta objetiva
+        </md-button>
+      </div>
+      <div ng-show="$root.isAAPP==true" ng-controller="MesaAdministrativaController"  class="dialogMesaAdministrativa-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+        <md-button class="md-primary md-raised my-button" ng-click="mesaAdministrativa(licitacion)" min-width=200px>
+          Mesa administrativa
+        </md-button>
+      </div>
+      <div ng-show="$root.isAAPP==true" ng-controller="MesaSubjetivaController"  class="dialogMesaSubjetiva-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+        <md-button class="md-primary md-raised my-button" ng-click="mesaSubjetiva(licitacion)" min-width=200px>
+          Mesa criterios subjetivos
+        </md-button>
+      </div>
+      <div ng-show="$root.isAAPP==true" ng-controller="MesaObjetivaController"  class="dialogMesaObjetiva-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+        <md-button class="md-primary md-raised my-button" ng-click="mesaObjetiva(licitacion)" min-width=200px>
+          Mesa criterios objetivos
+        </md-button>
+      </div>
+    </div>
+    <div class="md-dialog-content" flex="100">
+      <md-content md-theme="docs-dark">
+        <md-input-container class="md-block" flex="95">
+          <label>Objeto</label>
+          <input disabled ng-model="licitacion.objeto">
+        </md-input-container>
+      </md-content>
+
+      <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding="">
+        <div flex="95" layout="row">
+          <md-input-container class="md-block" flex="10">
+            <label>CPV</label>
+            <input disabled ng-model="licitacion.CPV">
+          </md-input-container>
+          <md-input-container class="md-block" flex="15">
+            <label>Importe de Licitación</label>
+            <input disabled ng-model="licitacion.importe_max">
+          </md-input-container>
+          <md-input-container class="md-block" flex="15">
+            <label>Importe de Adjudicación</label>
+            <input disabled ng-model="licitacion.importe_adj">
+          </md-input-container>
+          <md-input-container class="md-block" flex="60">
+            <label>Órgano de contratación</label>
+            <input disabled ng-model="licitacion.org_contratacion">
+          </md-input-container>
+        </div>
+      </md-content>
+
+      <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding="">
+        <div flex="95" layout="row">
+          <md-input-container flex="20">
+            <label>Fecha inicio</label>
+            <input disabled ng-model="licitacion.fecha_inicio">
+          </md-input-container>
+          <md-input-container flex="20">
+            <label>Fin presentación ofertas</label>
+            <input disabled ng-model="licitacion.fecha_fin">
+          </md-input-container>
+          <md-input-container flex="20">
+            <label>Mesa Administrativa</label>
+            <input disabled  ng-model="licitacion.fecha_mesa_adm">
+          </md-input-container>
+          <md-input-container flex="20">
+            <label>Mesa subjetivos</label>
+            <input disabled ng-model="licitacion.fecha_mesa_subj">
+          </md-input-container>
+          <md-input-container flex="20">
+            <label>Mesa objetivos</label>
+            <input disabled  ng-model="licitacion.fecha_mesa_obj">
+          </md-input-container>
+          </md-input-container>
+        </div>
+      </md-content>
+      <md-input-container class="md-block">
+        <label>Pliego Prescripciones Técnicas (PPT)</label>
+        <textarea disabled ng-model="licitacion.ppt"></textarea>
+      </md-input-container>
+      <md-input-container>
+      <label>Hash PPT</label>
+      <input disabled ng-model="licitacion.PPTHash">
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Pliego Cláusulas Administrativas (PCA)</label>
+        <textarea disabled ng-model="licitacion.pca"></textarea>
+      </md-input-container>
+      <md-input-container>
+        <label>Hash PCA</label>
+        <input disabled ng-model="licitacion.PCAHash">
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Criterios</label>
+        <textarea disabled ng-model="licitacion.criterios"></textarea>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Dirección Smart Contract</label>
+        <textarea disabled ng-model="licitacion.sc.address"></textarea>
+        <md-input-container class="md-block">
+          <label>Interfaz Smart Contract (ABI)</label>
+          <textarea disabled ng-model="licitacion.sc.abi"></textarea>
+      </md-input-container>
+
+
+    </div>
+    <oferta-list></oferta-list>
+  </md-dialog-content>
+  <md-dialog-actions>
+  </md-dialog-actions>
+</md-dialog>
+
+
+
+

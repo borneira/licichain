@@ -16,5 +16,8 @@ function LicitacionDetailController($scope, $mdDialog, licitacion, Licitacion) {
       );
   }
   getLicitacionDetail(licitacion.id);
+  $scope.cancel = function() {
+    $mdDialog.hide();
+  }
 
 };

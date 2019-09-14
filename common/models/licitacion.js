@@ -2,6 +2,7 @@
 
 const licitacionSC = require('../../server/lib/licitacion_sc');
 const cryptoUtils = require('../../server/lib/crypto-utils');
+const valoracion = require('../../server/lib/valoracion');
 
 function logDiscrepancia(campo, campoBbdd, campoBlockchain) {
   console.log('Inconsitencia detectada en BBDD: ' + campo + ' diferente');
@@ -66,8 +67,6 @@ async function consultBlockchain(licitacionBbdd) {
 async function getOfertaBl(ofertaBbdd, licitacion) {
   let ofertaBl = await licitacionSC.getOferta(licitacion.sc.address,
     licitacion.sc.jsonInterface, ofertaBbdd.empresaHash);
-  console.log(ofertaBbdd);
-  console.log(ofertaBl);
   return ofertaBl;
 };
 
@@ -105,20 +104,20 @@ module.exports = function(Licitacion) {
 
   Licitacion.mesaSubjetiva = async function(licitacionId, ofertasValoradas) {
     // Recuperamos la licitacion de la BBDD
-    console.log(ofertasValoradas);
     let licitacionBbdd =
       await Licitacion.findById(licitacionId, {include: 'oferta'});
     let ofertas = await licitacionBbdd.oferta();
     for (let oferta of ofertas) {
       let ofertaValorada = ofertasValoradas.find(function(of) {
         return of.empresaHash === oferta.empresaHash;
-      })
+      });
       await licitacionSC.valoraOfertaSubjetiva(licitacionBbdd.sc.address,
-        licitacionBbdd.sc.jsonInterface, oferta.empresaHash, ofertaValorada.valoracionSubjetiva);
+        licitacionBbdd.sc.jsonInterface,
+        oferta.empresaHash, ofertaValorada.valoracionSubjetiva);
       oferta.updateAttribute('valoracionSubjetiva',
         ofertaValorada.valoracionSubjetiva,
         function(result) {
-        }
+        },
       );
     }
     return 'OK';
@@ -127,37 +126,37 @@ module.exports = function(Licitacion) {
   Licitacion.mesaObjetiva = async function(licitacionId) {
     let licitacionBbdd =
       await Licitacion.findById(licitacionId, {include: 'oferta'});
-    let criterios = JSON.parse(licitacionBbdd.criterios);
-    for (let criterio of criterios) {
-      if (criterio.formula === 'importe') {
-        console.log('importe');
-      }
-      if (criterio.formula === 'relativa') {
-        console.log('relativa');
-      }
-      if (criterio.formula === 'absluta')
-        console.log('absoluta');
+    let ofertas = await licitacionBbdd.oferta();
+    let ofertasValoradas = valoracion
+      .valoraLicitacion(licitacionBbdd, ofertas);
+    for (let oferta of ofertasValoradas) {
+      await licitacionSC.valoraOfertaObjetiva(licitacionBbdd.sc.address,
+        licitacionBbdd.sc.jsonInterface,
+        oferta.empresaHash, JSON.stringify(oferta.valoracionObjetiva));
+      oferta.updateAttribute('valoracionObjetiva',
+        oferta.valoracionObjetiva,
+        function(result) {
+        },
+      );
     }
-
-    return 'No implemtentado';
+    return ofertasValoradas;
   };
 
   Licitacion.revelaOferta =
     async function(licitacionId, oferta, tipoOferta, empresa) {
-    // Recuperamos la licitacion de la BBDD
+      // Recuperamos la licitacion de la BBDD
       let licitacionBbdd =
-      await Licitacion.findById(licitacionId, {include: 'oferta'});
+        await Licitacion.findById(licitacionId, {include: 'oferta'});
 
-    // Identificamos la oferta de la empresa
+      // Identificamos la oferta de la empresa
       let ofertas = await licitacionBbdd.oferta();
       for (let ofertaBbbd of ofertas) {
         if (ofertaBbbd.empresa == empresa) {
-
           if (tipoOferta == 'subjetiva') {
             ofertaBbbd.subjetiva = oferta;
             ofertaBbbd.updateAttribute('subjetiva', oferta,
               function(result) {
-              }
+              },
             );
           } else {
             await licitacionSC.revelaOfertaObjetiva(licitacionBbdd.sc.address,
@@ -165,7 +164,7 @@ module.exports = function(Licitacion) {
             ofertaBbbd.objetiva = oferta;
             ofertaBbbd.updateAttribute('objetiva', oferta,
               function(result) {
-              }
+              },
             );
           }
         }

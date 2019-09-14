@@ -1,5 +1,8 @@
 /* app css stylesheet */
 
+.blockchain {
+  color: blue;
+}
 .my-button {
   min-width: 180;
 }

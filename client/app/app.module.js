@@ -3,7 +3,7 @@ angular.module('licichainApp', [
   'md.data.table', 'nuevaLicitacion', 'showLicitacion', 'licitacionDetail',
   'login', 'nuevaOferta', 'ofertaList', 'verOfertas',
   'mesaAdministrativa', 'mesaSubjetiva', 'mesaObjetiva',
-  'revelarOferta'
+  'revelarOferta', 'ofertasDetail'
 ])
   .config(function($mdThemingProvider) {
     $mdThemingProvider.theme('docs-dark')

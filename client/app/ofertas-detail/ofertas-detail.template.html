@@ -1,0 +1,58 @@
+<md-dialog aria-label="Detalle ofertas almacenado en blockchain" flex="80">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Detalle ofertas</h2>
+      <span flex></span>
+      <md-button layout-align="right" class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div layout="row">
+    <md-nav-bar
+      md-no-ink-bar="enableInkBar"
+      md-selected-nav-item="currentNavItem"
+      nav-bar-aria-label="navigation links" ng-repeat="oferta in ofertas">
+      <md-nav-item md-nav-click="goto(oferta)">
+        Oferta {{oferta.numero}}
+      </md-nav-item>
+    </md-nav-bar>
+    </div>
+      <div class="md-dialog-content" flex="100">
+        <md-content md-theme="docs-dark">
+          <div>
+            <h4>Empresa</h4>
+            <p>{{oferta.empresa}}</p>
+          </div>
+          <div>
+            <h4>Identificador</h4>
+            <p>Hash: {{oferta.empresaHash}}</p>
+            <p>Nonce: {{oferta.nonce}}</p>
+          </div>
+          <div>
+            <h4>Información oferta subjetiva</h4>
+            <p>Hash: {{oferta.subjetivaHash}}</p>
+          </div>
+          <div>
+            <h4>Información oferta objetiva</h4>
+            <p>Hash: {{oferta.objetivaHash}}</p>
+            <p>Cifrada: {{oferta.objetivaCifrada}}</p>
+            <p>En claro: {{oferta.objetiva}}</p>
+          </div>
+          <div>
+            <h4>Información valoración subjetiva</h4>
+            <p>Valoración: {{oferta.valoracion[1]}}</p>
+          </div>
+          <div>
+            <h4>Información valoración objetiva</h4>
+            <p>Valoración: {{oferta.valoracion[0]}}</p>
+          </div>
+        </md-content>
+      </div>
+  </md-dialog-content>
+</md-dialog>
+
+
+
+

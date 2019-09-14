@@ -1,5 +1,4 @@
 pragma solidity ^0.5.3;
-pragma experimental ABIEncoderV2;
 
 contract Bid {
 
@@ -27,11 +26,6 @@ contract Bid {
   Licitacion public licitacion;
   Fechas public fechas;
 
-  struct Valoracion {
-    string objetiva;
-    string subjetiva;
-  }
-
   struct Oferta {
     string empresa;
     string nonce;
@@ -40,7 +34,7 @@ contract Bid {
     string objetivaHash;
     string objetivaCifrada;
     string objetiva;
-    Valoracion valoracion;
+    uint8[2] valoraciones;
   }
 
   uint numOfertas;
@@ -98,10 +92,7 @@ contract Bid {
     ///    require (now <= fechas.fecha_fin);
     require(msg.sender == owner);
     ofertaID = numOfertas++;
-    Valoracion memory valoracion;
-    valoracion.objetiva = '';
-    valoracion.subjetiva = '';
-    ofertas[ofertaID] = Oferta('', '', empresaHash, subjetivaHash, objetivaHash, objetivaCifrada, '', valoracion);
+    ofertas[ofertaID] = Oferta('', '', empresaHash, subjetivaHash, objetivaHash, objetivaCifrada, '', [0, 0]);
     ofertasIndex[empresaHash] = ofertaID;
   }
 
@@ -124,20 +115,18 @@ contract Bid {
     ofertas[ofertaID].objetiva = objetiva;
   }
 
-  function valoraOfertaSubjetiva(string memory empresaHash, string memory valoracion) public  {
+  function valoraOfertaSubjetiva(string memory empresaHash, uint8 valor) public  {
     require(msg.sender == owner);
     ///    require (now >= fechas.fecha_mesa_subj);
     uint ofertaID = ofertasIndex[empresaHash];
-    ofertas[ofertaID].valoracion.subjetiva = valoracion;
+    ofertas[ofertaID].valoraciones[0] = valor;
   }
 
-  function valoraOfertaObjetiva(string memory empresaHash, string memory valoracion) public  {
+  function valoraOfertaObjetiva(string memory empresaHash, uint8 valor) public  {
     require(msg.sender == owner);
-    ///    require (now >= fechas.fecha_mesa_subj);
+    ///    require (now >= fechas.fecha_mesa_obj);
     uint ofertaID = ofertasIndex[empresaHash];
-    ofertas[ofertaID].valoracion.objetiva = valoracion;
+    ofertas[ofertaID].valoraciones[1] = valor;
   }
-
 
 }
-

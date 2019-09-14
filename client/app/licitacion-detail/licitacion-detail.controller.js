@@ -9,13 +9,8 @@ angular.module('showLicitacion', ['ngMaterial'])
         templateUrl: 'licitacion-detail/licitacion-detail.template.html',
         parent: angular.element(document.body),
         targetEvent: ev,
-        clickOutsideToClose: true,
-        fullscreen: true
+        clickOutsideToClose: false,
+        fullscreen: false
       })
-        .then(function(answer) {
-          $scope.status = 'You said the information was "' + answer + '".';
-        }, function() {
-          $scope.status = 'You cancelled the dialog.';
-        });
     };
   });
