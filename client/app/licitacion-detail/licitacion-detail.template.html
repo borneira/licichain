@@ -1,73 +1,84 @@
 <md-dialog aria-label="Detalle licitación" flex="80">
   <md-toolbar class="md-toolbar-tools">
-      <h2>Detalle licitación</h2>
-      <span flex></span>
-      <md-button layout-align="right" class="md-icon-button" ng-click="cancel()">
-        <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-      </md-button>
+    <h2>Detalle licitación</h2>
+    <span flex></span>
+    <md-button layout-align="right" class="md-icon-button" ng-click="cancel()">
+      <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+    </md-button>
   </md-toolbar>
   <md-dialog-content>
     <md-content class="md-padding dialogNuevaOferta" id="popupContainer" ng-cloak layout="row" flex>
-      <md-content ng-show="$root.isEMPRESA==true" ng-controller="NuevaOfertaController" class="dialogNuevaOferta-content"
-           layout="row" layout-wrap="" layout-margin="" layout-align="left">
+      <md-content ng-show="$root.isEMPRESA==true" ng-controller="NuevaOfertaController"
+                  class="dialogNuevaOferta-content"
+                  layout="row" layout-wrap="" layout-margin="" layout-align="left">
         <md-button class="md-primary md-raised my-button" ng-click="showNuevaOferta(licitacion)" min-width=200px>
           Presentar oferta
         </md-button>
       </md-content>
-      <md-content ng-show="$root.isEMPRESA==true" ng-controller="RevelarOfertaController" class="dialogNuevaOferta-content"
-           layout="row" layout-wrap="" layout-margin="" layout-align="left">
+      <md-content ng-show="$root.isEMPRESA==true" ng-controller="RevelarOfertaController"
+                  class="dialogNuevaOferta-content"
+                  layout="row" layout-wrap="" layout-margin="" layout-align="left">
         <md-button class="md-primary md-raised my-button" ng-click="revelarOferta(licitacion, 'subjetiva')"
                    min-width=200px>
           Revelar oferta subjetiva
         </md-button>
       </md-content>
-      <md-content ng-show="$root.isEMPRESA==true" ng-controller="RevelarOfertaController" class="dialogNuevaOferta-content"
-           layout="row" layout-wrap="" layout-margin="" layout-align="left">
+      <md-content ng-show="$root.isEMPRESA==true" ng-controller="RevelarOfertaController"
+                  class="dialogNuevaOferta-content"
+                  layout="row" layout-wrap="" layout-margin="" layout-align="left">
         <md-button class="md-primary md-raised my-button" ng-click="revelarOferta(licitacion, 'objetiva')"
                    min-width=200px>
           Revelar oferta objetiva
         </md-button>
       </md-content>
       <md-content ng-show="$root.isAAPP==true" ng-controller="MesaAdministrativaController"
-           class="dialogMesaAdministrativa-content" layout="row" layout-wrap="" layout-margin="" layout-align="left">
+                  class="dialogMesaAdministrativa-content" layout="row" layout-wrap="" layout-margin=""
+                  layout-align="left">
         <md-button class="md-primary md-raised my-button" ng-click="mesaAdministrativa(licitacion)" min-width=200px>
           Mesa administrativa
         </md-button>
       </md-content>
-      <md-content ng-show="$root.isAAPP==true" ng-controller="MesaSubjetivaController" class="dialogMesaSubjetiva-content"
-           layout="row" layout-wrap="" layout-margin="" layout-align="left">
+      <md-content ng-show="$root.isAAPP==true" ng-controller="MesaSubjetivaController"
+                  class="dialogMesaSubjetiva-content"
+                  layout="row" layout-wrap="" layout-margin="" layout-align="left">
         <md-button class="md-primary md-raised my-button" ng-click="mesaSubjetiva(licitacion)" min-width=200px>
           Mesa criterios subjetivos
         </md-button>
       </md-content>
       <md-content ng-show="$root.isAAPP==true" ng-controller="MesaObjetivaController" class="dialogMesaObjetiva-content"
-           layout="row" layout-wrap="" layout-margin="" layout-align="left">
+                  layout="row" layout-wrap="" layout-margin="" layout-align="left">
         <md-button class="md-primary md-raised my-button" ng-click="mesaObjetiva(licitacion)" min-width=200px>
           Mesa criterios objetivos
         </md-button>
       </md-content>
       <md-content ng-controller="DetalleOfertasController"
-           layout="row" layout-wrap="" layout-margin="" layout-align="left">
+                  layout="row" layout-wrap="" layout-margin="" layout-align="left">
         <md-button class="md-primary md-raised my-button" ng-click="mostrarOfertas(licitacion)" min-width=200px>
           Mostrar ofertas
         </md-button>
       </md-content>
       <md-content text-align="right" layout="column" text-align="right">
         <md-content text-align="right">
-        <p class="blockchain">(*) La información en este color se almacena en blockchain</p>
+          <p class="blockchain">(*) La información en este color se almacena en blockchain</p>
         </md-content>
         <md-content text-align="right">
-        <p>(*) La información en este color se almacena solo en BBDD</p>
+          <p>(*) La información en este color se almacena solo en BBDD</p>
         </md-content>
       </md-content>
     </md-content>
     <md-content class="md-dialog-content" flex="100">
-      <md-content class="blockchain">
-        <h3>Objeto</h3>
-        <p>{{licitacion.objeto}}</p>
+      <md-content flex="95" layout="row" class="blockchain">
+        <md-content class="blockchain" flex>
+          <h3>Objeto</h3>
+          <p>{{licitacion.objeto}}</p>
+        </md-content>
+        <md-content class="blockchain" flex>
+          <h3>Empresa adjudicataria</h3>
+          <p>{{licitacion.empresaAdjudicataria}}</p>
+        </md-content>
       </md-content>
       <md-divider></md-divider>
-      <md-content layout-gt-sm="row"  class="blockchain">
+      <md-content layout-gt-sm="row" class="blockchain">
         <md-content flex="95" layout="row" class="blockchain">
           <md-content flex class="blockchain">
             <h3>CPV</h3>
@@ -88,29 +99,29 @@
         </md-content>
       </md-content>
       <md-divider></md-divider>
-      <md-content layout-gt-sm="row" layout-padding=""  class="blockchain">
-            <md-content flex="95" layout="row">
-              <md-content flex class="blockchain">
-                <h3>Fecha inicio</h3>
-                <p>{{licitacion.fecha_inicio | date}}</p>
-              </md-content>
-              <md-content flex class="blockchain">
-                <h3>Fin presentación ofertas</h3>
-                <p>{{licitacion.fecha_fin | date}}</p>
-              </md-content>
-              <md-content flex class="blockchain">
-                <h3>Mesa Administrativa</h3>
-                <p>{{licitacion.fecha_mesa_adm | date}}</p>
-              </md-content>
-              <md-content flex class="blockchain">
-                <h3>Mesa subjetivos</h3>
-                <p>{{licitacion.fecha_mesa_subj | date}}</p>
-              </md-content>
-              <md-content flex class="blockchain">
-                <h3>Mesa objetivos</h3>
-                <p>{{licitacion.fecha_mesa_obj | date}}</p>
-              </md-content>
-            </md-content>
+      <md-content layout-gt-sm="row" layout-padding="" class="blockchain">
+        <md-content flex="95" layout="row">
+          <md-content flex class="blockchain">
+            <h3>Fecha inicio</h3>
+            <p>{{licitacion.fecha_inicio | date}}</p>
+          </md-content>
+          <md-content flex class="blockchain">
+            <h3>Fin presentación ofertas</h3>
+            <p>{{licitacion.fecha_fin | date}}</p>
+          </md-content>
+          <md-content flex class="blockchain">
+            <h3>Mesa Administrativa</h3>
+            <p>{{licitacion.fecha_mesa_adm | date}}</p>
+          </md-content>
+          <md-content flex class="blockchain">
+            <h3>Mesa subjetivos</h3>
+            <p>{{licitacion.fecha_mesa_subj | date}}</p>
+          </md-content>
+          <md-content flex class="blockchain">
+            <h3>Mesa objetivos</h3>
+            <p>{{licitacion.fecha_mesa_obj | date}}</p>
+          </md-content>
+        </md-content>
       </md-content>
       <md-divider></md-divider>
       <md-content layout-gt-sm="row" layout-padding="">

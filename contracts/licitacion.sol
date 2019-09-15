@@ -23,7 +23,8 @@ contract Bid {
     uint fecha_mesa_subj;
     uint fecha_mesa_obj;
   }
-  string empresaAdjudicataria;
+
+  string public empresaAdjudicataria;
   Licitacion public licitacion;
   Fechas public fechas;
 
@@ -68,10 +69,12 @@ contract Bid {
     licitacion.objeto = _objeto;
     licitacion.org_contratacion = _org_contratacion;
     licitacion.importe_max = _importe_max;
+    licitacion.importe_adj = 0;
     licitacion.CPV = _CPV;
     licitacion.PPTHash = _PPTHash;
     licitacion.PCAHash = _PCAHash;
     licitacion.criterios = _criterios;
+    empresaAdjudicataria = '';
   }
 
   function setFechas (uint fecha_inicio, uint fecha_fin, uint fecha_mesa_adm, uint fecha_mesa_subj, uint fecha_mesa_obj) public {
@@ -133,11 +136,15 @@ contract Bid {
 
   function valoraOfertaObjetiva(string memory empresaHash, string memory valoracion) public  {
     require(msg.sender == owner);
-    ///    require (now >= fechas.fecha_mesa_subj);
+    ///    require (now >= fechas.fecha_mesa_obj);
     uint ofertaID = ofertasIndex[empresaHash];
     ofertas[ofertaID].valoracion.objetiva = valoracion;
   }
-
-
+  function ofertaAdjudicataria(string memory empresaHash, uint importe) public {
+    require(msg.sender == owner);
+    ///    require (now >= fechas.fecha_mesa_obj);
+    uint ofertaID = ofertasIndex[empresaHash];
+    licitacion.importe_adj = importe;
+    empresaAdjudicataria = ofertas[ofertaID].empresa;
+  }
 }
-

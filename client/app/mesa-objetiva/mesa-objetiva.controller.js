@@ -11,7 +11,7 @@ angular.module('mesaObjetiva', ['ngMaterial'])
             $mdDialog.alert()
               .clickOutsideToClose(true)
               .title('Mesa objetiva')
-              .textContent('PENDIENTE')
+              .textContent('Se han realizado automáticamente la valoración objetiva de las ofertas y se han publicado los resultados en el Blockchain')
               .ok('OK')
               // You can specify either sting with query selector
               .openFrom('#left')

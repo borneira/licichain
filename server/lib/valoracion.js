@@ -1,7 +1,7 @@
 module.exports = {
 
   /**
-   * Despliega una nueva licitación en blockchain y devuelve una nueva instancia de Licitacion con los datos del SmartContract
+   * Calcula las valoraciones objetivas de las empresas
    * @param  {Object}            licitacion
    * @param  {Array}             ofertas
    * @return {Array}             ofertasValoradas
@@ -12,6 +12,7 @@ module.exports = {
     // Inicializamos las valoraciones objetivas
     ofertas.forEach(function(oferta, index) {
       ofertas[index].valoracionObjetiva = {};
+      ofertas[index].valoracionTotal = ofertas[index].valoracionSubjetiva;
     });
     for (let criterio of criterios) {
       if (criterio.formula === 'relativa_decreciente') {
@@ -35,8 +36,11 @@ module.exports = {
               (Number(criterio.vmax) -
                 Number(JSON.parse(oferta.objetiva)[criterio.nombre])) /
               (Number(criterio.vmax) - ofertaMin);
+            ofertas[index].valoracionTotal =
+              ofertas[index].valoracionTotal +
+              ofertas[index].valoracionObjetiva[criterio.nombre];
           }
-          console.log(oferta);
+
         });
       }
       if (criterio.formula === 'relativa_creciente') {
@@ -57,6 +61,9 @@ module.exports = {
               (Number(JSON.parse(oferta.objetiva)[criterio.nombre]) -
                 Number(criterio.vmin)) /
               (ofertaMax - Number(criterio.vmin));
+            ofertas[index].valoracionTotal =
+              ofertas[index].valoracionTotal +
+              ofertas[index].valoracionObjetiva[criterio.nombre];
           }
         });
       }
@@ -67,8 +74,12 @@ module.exports = {
         ofertas.forEach(function(oferta, index) {
           ofertas[index].valoracionObjetiva[criterio.nombre] =
             Number(criterio.peso) *
-            (Number(criterio.vmax) - Number(JSON.parse(oferta.objetiva)[criterio.nombre])) /
+            (Number(criterio.vmax) -
+              Number(JSON.parse(oferta.objetiva)[criterio.nombre])) /
             (Number(criterio.vmax) - Number(criterio.vmin));
+          ofertas[index].valoracionTotal =
+            ofertas[index].valoracionTotal +
+            ofertas[index].valoracionObjetiva[criterio.nombre];
         });
       }
       if (criterio.formula === 'absoluta_creciente') {
@@ -77,11 +88,31 @@ module.exports = {
         ofertas.forEach(function(oferta, index) {
           ofertas[index].valoracionObjetiva[criterio.nombre] =
             Number(criterio.peso) *
-            (Number(JSON.parse(oferta.objetiva)[criterio.nombre]) - Number(criterio.vmin)) /
+            (Number(JSON.parse(oferta.objetiva)[criterio.nombre]) -
+              Number(criterio.vmin)) /
             (Number(criterio.vmax) - Number(criterio.vmin));
+          ofertas[index].valoracionTotal =
+            ofertas[index].valoracionTotal +
+            ofertas[index].valoracionObjetiva[criterio.nombre];
         });
       }
     }
     return ofertas;
+  },
+
+  /**
+   * Determina la oferta adjudicatiria
+   * @param  {Array}             ofertas
+   * @return {Array}             ofertaAdjudicataria
+   */
+  obtieneAdjudicataria: function(ofertas) {
+    let adjudicatario = {};
+    let ofertaAdjudicataria = ofertas[0];
+    for (let oferta of ofertas) {
+      if (oferta.valoracionTotal > ofertaAdjudicataria.valoracionTotal) {
+        ofertaAdjudicataria = oferta;
+      }
+    }
+    return ofertaAdjudicataria;
   },
 };

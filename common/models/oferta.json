@@ -42,6 +42,9 @@
     },
     "valoracionObjetiva": {
       "type": "object"
+    },
+    "valoracionTotal": {
+      "type": "number"
     }
   },
   "validations": [],

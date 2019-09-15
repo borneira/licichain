@@ -9,7 +9,6 @@ function logDiscrepancia(campo, campoBbdd, campoBlockchain) {
   console.log(campo + ' en blockchain: ' + campoBlockchain);
   console.log(campo + ' en BBDD: ' + campoBbdd);
 }
-
 async function consultBlockchain(licitacionBbdd) {
   let licitacionBl = await licitacionSC.getLicitacion(licitacionBbdd.sc.address,
     licitacionBbdd.sc.jsonInterface);
@@ -129,6 +128,12 @@ module.exports = function(Licitacion) {
     let ofertas = await licitacionBbdd.oferta();
     let ofertasValoradas = valoracion
       .valoraLicitacion(licitacionBbdd, ofertas);
+    let ofertaAdjudicataria = valoracion.obtieneAdjudicataria(ofertas);
+    console.log(ofertaAdjudicataria);
+    await licitacionSC.ofertaAdjudicataria(licitacionBbdd.sc.address,
+      licitacionBbdd.sc.jsonInterface,
+      ofertaAdjudicataria.empresaHash,
+      Number(JSON.parse(ofertaAdjudicataria.objetiva).Importe));
     for (let oferta of ofertasValoradas) {
       await licitacionSC.valoraOfertaObjetiva(licitacionBbdd.sc.address,
         licitacionBbdd.sc.jsonInterface,
@@ -139,6 +144,15 @@ module.exports = function(Licitacion) {
         },
       );
     }
+    licitacionBbdd.updateAttribute('empresaAdjudicataria',
+      ofertaAdjudicataria.empresa, function(result) {
+      },
+    );
+    licitacionBbdd.updateAttribute('importe_adj',
+      Number(JSON.parse(ofertaAdjudicataria.objetiva).Importe),
+      function(result) {
+      },
+    );
     return ofertasValoradas;
   };
 
@@ -174,6 +188,7 @@ module.exports = function(Licitacion) {
 
   Licitacion.observe('before save', function(ctx, next) {
     async function deploy() {
+      if (ctx.instance === undefined) { return next(); }
       ctx.instance = await licitacionSC.deployLicitacion(ctx.instance);
       return next();
     }

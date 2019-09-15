@@ -122,9 +122,12 @@ module.exports = {
 
     let licitacionBl = null;
     let fechas = null;
+    let empresaAdjudicataria = '';
     try {
       licitacionBl = await contract.methods.licitacion().call();
       fechas = await contract.methods.fechas().call();
+      empresaAdjudicataria =
+        await contract.methods.empresaAdjudicataria().call();
     } catch (err) {
       console.log(err);
       throw err;
@@ -139,6 +142,7 @@ module.exports = {
       address: address,
       jsonInterface: jsonInterface,
     };
+    licitacionBl.empresaAdjudicataria = empresaAdjudicataria;
     return licitacionBl;
   },
 
@@ -254,6 +258,24 @@ module.exports = {
       gas: 1000000,
     });
     await contract.methods.valoraOfertaObjetiva(empresaHash, valor).send();
+    return;
+  },
+  /**
+   * Escribe la empresa adjudictaria y el importe de adjudicación en Blockchain
+   * @param  {String}            Address
+   * @param  {String}            JSONInterface
+   * @param  {String}            empresa
+   * @param  {number}            importe
+   */
+  ofertaAdjudicataria: async function(address, jsonInterface,
+    empresaHash, importe) {
+    let abi = JSON.parse(jsonInterface);
+    let contract = new web3.eth.Contract(abi, address, {
+      from: acc.address,
+      gasPrice: 0,
+      gas: 1000000,
+    });
+    await contract.methods.ofertaAdjudicataria(empresaHash, importe).send();
     return;
   },
 };
