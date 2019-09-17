@@ -3,9 +3,11 @@ pragma experimental ABIEncoderV2;
 
 contract Bid {
 
-  address public owner;
+    /// The address of the owner is stored in order to require the same identity for any change in the contract
+    address public owner;
 
-  struct Licitacion {
+    /// Struct with the tendering information
+    struct Licitacion {
     string objeto;
     string org_contratacion;
     uint importe_max;
@@ -16,6 +18,7 @@ contract Bid {
     string criterios;
   }
 
+  /// Struct for storing the relevant dates
   struct Fechas {
     uint fecha_inicio;
     uint fecha_fin;
@@ -24,15 +27,23 @@ contract Bid {
     uint fecha_mesa_obj;
   }
 
+  /// Public read access to the best bidder
   string public empresaAdjudicataria;
+
+  /// Public read acces to the tendering information
+
   Licitacion public licitacion;
+
+  /// Public read access to the relevant dates in the tendering process
   Fechas public fechas;
 
+  /// Struct for storing evaluation data
   struct Valoracion {
     string objetiva;
     string subjetiva;
   }
 
+  /// Struct for storing offers
   struct Oferta {
     string empresa;
     string nonce;
@@ -44,18 +55,13 @@ contract Bid {
     Valoracion valoracion;
   }
 
+  /// Variable and mappings for storing offers
   uint numOfertas;
   mapping (uint => Oferta) public ofertas;
   mapping (string => uint) ofertasIndex;
 
 
-  /// Modifiers are a convenient way to validate inputs to
-  /// functions. `onlyBefore` is applied to `bid` below:
-  /// The new function body is the modifier's body where
-  /// `_` is replaced by the old function body.
-  modifier onlyBefore(uint _time) { require(now < _time); _; }
-  modifier onlyAfter(uint _time) { require(now > _time); _; }
-
+  /// Called to create a new tendering process
   constructor(
     string memory _objeto,
     string memory _org_contratacion,
@@ -77,7 +83,11 @@ contract Bid {
     empresaAdjudicataria = '';
   }
 
-  function setFechas (uint fecha_inicio, uint fecha_fin, uint fecha_mesa_adm, uint fecha_mesa_subj, uint fecha_mesa_obj) public {
+  /// Part of the tendering creation
+  /// It's not in the constructor because of the EMV's stack limitation
+  /// It should be called just after the constructor
+  function setFechas (uint fecha_inicio, uint fecha_fin,
+    uint fecha_mesa_adm, uint fecha_mesa_subj, uint fecha_mesa_obj) public {
     require(msg.sender == owner);
     fechas.fecha_inicio = fecha_inicio;
     fechas.fecha_fin = fecha_fin;
@@ -86,19 +96,16 @@ contract Bid {
     fechas.fecha_mesa_obj = fecha_mesa_obj;
   }
 
-  function setImporte_adj(uint importe_adj) public {
-    require(msg.sender == owner);
-    require(now >= fechas.fecha_mesa_obj);
-    licitacion.importe_adj = importe_adj;
-  }
-
+  /// It stores a new offer for the tendering
+  /// Only works between fecha_inicio and fecha_fin
+  /// Only can be called by the public administration owning the tendering
   function nuevaOferta(
     string memory empresaHash,
     string memory subjetivaHash,
     string memory objetivaHash,
     string memory objetivaCifrada) public returns (uint ofertaID) {
-    ///    require (now >= fechas.fecha_inicio);
-    ///    require (now <= fechas.fecha_fin);
+    require (now >= fechas.fecha_inicio);
+    require (now <= fechas.fecha_fin);
     require(msg.sender == owner);
     ofertaID = numOfertas++;
     Valoracion memory valoracion;
@@ -108,41 +115,59 @@ contract Bid {
     ofertasIndex[empresaHash] = ofertaID;
   }
 
+  /// Retrieves the ID of an offer from empresaHash
+  /// Read only
   function getOfertaID(string memory empresaHash) public view returns (uint ofertaID) {
     ofertaID = ofertasIndex[empresaHash];
   }
 
+  /// Reveals the name of the company
+  /// Only works after fecha_mesa_adm
+  /// Only can be called by the public administration owning the tendering
   function revelaEmpresa(string memory empresaHash, string memory empresa, string memory nonce) public  {
     require(msg.sender == owner);
-    ///    require (now >= fechas.fecha_mesa_adm);
+    require (now >= fechas.fecha_mesa_adm);
     uint ofertaID = ofertasIndex[empresaHash];
     ofertas[ofertaID].empresa = empresa;
     ofertas[ofertaID].nonce = nonce;
   }
 
-  function revelaOfertaObjetiva(string memory empresaHash, string memory objetiva) public  {
-    require(msg.sender == owner);
-    ///    require (now >= fechas.fecha_mesa_obj);
-    uint ofertaID = ofertasIndex[empresaHash];
-    ofertas[ofertaID].objetiva = objetiva;
-  }
-
+  /// Publish subjective evaluation
+  /// Only works after fecha_mesa_subj
+  /// Only can be called by the public administration owning the tendering
   function valoraOfertaSubjetiva(string memory empresaHash, string memory valoracion) public  {
     require(msg.sender == owner);
-    ///    require (now >= fechas.fecha_mesa_subj);
+    require (now >= fechas.fecha_mesa_subj);
     uint ofertaID = ofertasIndex[empresaHash];
     ofertas[ofertaID].valoracion.subjetiva = valoracion;
   }
 
+  /// Reveals the part of the offer evaluated using objective criteria
+  /// Only works after fecha_mesa_obj
+  /// Only can be called by the public administration owning the tendering
+  function revelaOfertaObjetiva(string memory empresaHash, string memory objetiva) public  {
+    require(msg.sender == owner);
+    require (now >= fechas.fecha_mesa_obj);
+    uint ofertaID = ofertasIndex[empresaHash];
+    ofertas[ofertaID].objetiva = objetiva;
+  }
+
+  /// Publish objective evaluation
+  /// Only works after fecha_mesa_obj
+  /// Only can be called by the public administration owning the tendering
   function valoraOfertaObjetiva(string memory empresaHash, string memory valoracion) public  {
     require(msg.sender == owner);
-    ///    require (now >= fechas.fecha_mesa_obj);
+    require (now >= fechas.fecha_mesa_obj);
     uint ofertaID = ofertasIndex[empresaHash];
     ofertas[ofertaID].valoracion.objetiva = valoracion;
   }
+
+  /// Publish best bidder and tendering price
+  /// Only works after fecha_mesa_obj
+  /// Only can be called by the public administration owning the tendering
   function ofertaAdjudicataria(string memory empresaHash, uint importe) public {
     require(msg.sender == owner);
-    ///    require (now >= fechas.fecha_mesa_obj);
+    require (now >= fechas.fecha_mesa_obj);
     uint ofertaID = ofertasIndex[empresaHash];
     licitacion.importe_adj = importe;
     empresaAdjudicataria = ofertas[ofertaID].empresa;
